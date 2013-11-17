@@ -1,4 +1,4 @@
-<h1> auction-house
+<h1> auction-house <br>
 ============= </h1>
 
 Simple Auction web (Django &amp; python)
