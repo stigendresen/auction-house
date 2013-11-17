@@ -7,6 +7,6 @@ An adventure into JetBrains pyCharm.
 
 Regards 
 
-Heino Christian Sirviö
+Heino Christian Sirviö <br>
 Stig Endresen
 
