@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+    <title>BP's AuctionHouse</title>
+</head>
+<body>
+
+	{% if loggedin == True %}
+	<h3>Log Out:</h3>
+	<form action="/logout/" method="post">
+
+		{% csrf_token %}
+
+		<input type="submit" value="Log out">
+	</form>
+	{% endif %}
+
+
+	{% if loggedin == False %}
+	<h3>Log In:</h3>
+	<form action="/login/" method="post">
+		<label>E-mail: </label><br>
+	    <input type="text" name="email" value=""><br>
+		<label>Password: </label><br>
+	    <input type="text" name="pword" value=""><br>
+
+		{% csrf_token %}
+
+		<input type="submit" value="Log in">
+	</form>
+	{% endif %}
+
+	{% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form action="/auctionhouse/" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Register">
+    </form>
+    <br>
+
+
+	<h3>Active Auctions:</h3>
+
+	{% for i in auctions %}
+
+        {{ i.id }}: {{ i.email }}
+        <br>
+		<hr>
+		<br>
+
+	{% endfor %}
+
+	<!--
+
+    <br>
+    <hr>
+
+    {% for i in blogs %}
+
+        {{ i.id }}: {{ i.title }}<br>
+        Created: {{ i.timestamp }}
+        Version: {{ i.version }}
+
+        <form action="/myblog/{{ i.id }}/" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Show Blog">
+        </form>
+        <form action="/deleteblog/{{ i.id }}/" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Delete Blog">
+        </form>
+        <form action="/editblog/{{ i.id }}/" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Edit Blog">
+        </form>
+
+        <hr>
+
+    {% endfor %}
+
+    <form action="/resetcounters/" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Reset Counters">
+        <br><br>
+    </form>
+
+    -->
+
+</body>
+</html>
