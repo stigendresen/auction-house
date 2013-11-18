@@ -17,13 +17,14 @@
 		bid: {{ auction.latest_bid_by }}<br>
 		owner: {{ auction.ownerid.username }}<br>
 	</div>
-		{{  if user == auction.ownerid }}
+		{% if user == auction.ownerid %}
 		<div id="edit_button">
-			<form action="/editauction/{{ auction.id }}" method="post">
+			<form action="/editauction/{{ auction.id }}/" method="post">
                 {% csrf_token %}
                 <input type="submit" value="Edit">
             </form>
 		</div>
+        {% endif %}
 </article>
 
 {% include "footer.html" %}

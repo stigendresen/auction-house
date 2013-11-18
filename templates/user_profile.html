@@ -1,7 +1,7 @@
 {% include "head.html" %}
 {% comment %}   The head.html should be inherited parent when template design have been completed.
 				It`s work in progress.
-	{% endcomment %}
+{% endcomment %}
 
 {% include "body.html" %}
 
@@ -13,6 +13,35 @@
 		First name: {{ user.first_name }}<br>
 		Surname: {{ user.last_name }}<br>
 	</div>
+    <br><hr>
+    <div>
+        <form action="/auction/" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Create Auction">
+        </form>
+        <hr>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        <hr>
+        {% endif %}
+
+	    {% for i in auctions %}
+            Auction: {{ i.title }}
+            <form action="/editauction/{{ i.id }}/" method="post">
+                {% csrf_token %}
+                <input type="submit" name="editauction" value="Edit Auction">
+            </form>
+            <form action="/deleteauction/{{ i.id }}/" method="post">
+                {% csrf_token %}
+                <input type="submit" name="delauction" value="Delete Auction">
+            </form>
+            <hr>
+	    {% endfor %}
+    </div>
 </article>
 
 {% include "footer.html" %}

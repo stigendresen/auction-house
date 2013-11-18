@@ -13,9 +13,9 @@
 
 		<input type="submit" value="Log out">
 	</form>
-    <form action="/addauction/" method="post">
+    <form action="/auction/" method="post">
         {% csrf_token %}
-        <input type="submit" name="addauction" value="Create Auction">
+        <input type="submit" value="Create Auction">
     </form>
     <form action="/userprofile/" method="post">
         {% csrf_token %}
