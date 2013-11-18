@@ -100,5 +100,6 @@ def create_auction(request):
 
     auction = Auction.objects.create(ownerid=request.user)
     tmp_str = '/auction/' + str(auction.id)
+    
     return HttpResponseRedirect(tmp_str)
 
