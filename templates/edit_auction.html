@@ -9,22 +9,30 @@
 
 <article>
 	<div id="content">
-		<h1>Edit current auction<br></h1>
-		id: {{ auction.id }}<br>
-		title: {{ auction.title }}<br>
-		description: {{ auction.content }}<br>
-		price:  {{ auction.min_price }}<br>
-		bid: {{ auction.latest_bid_by }}<br>
-		owner: {{ auction.ownerid.username }}<br>
-	</div>
+	    <form action="/editauction/" method="post">
+
+	    <label>Auction ID: </label><br>
+        <input type="text" name="auction_id" value="{{ auction.id }}"><br>
+	    <label>Title: </label><br>
+        <input type="text" name="auction_title" value="{{ auction.title }}"><br>
+		<label>Description: </label><br>
+        <input type="text" name="auction_content" value="{{ auction.content }}"><br>
+		<label>End time: </label><br>
+        <input type="text" name="auction_endtime" value="{{ auction.endtime }}"><br>
+		<label>Start time: </label><br>
+        <input type="text" name="auction_starttime" value="{{ auction.endtime }}"><br>
+		<label>Minimum bid: </label><br>
+        <input type="text" name="auction_minprice" value="{{ auction.minprice }}"><br>
+
 		{% if user == auction.ownerid %}
-		<div id="edit_button">
+		<div id="publish_button">
 			<form action="/editauction/{{ auction.id }}/" method="post">
                 {% csrf_token %}
-                <input type="submit" value="Edit">
+                <input type="submit" value="Publish">
             </form>
 		</div>
         {% endif %}
+
 </article>
 
 {% include "footer.html" %}
