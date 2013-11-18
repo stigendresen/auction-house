@@ -3,6 +3,11 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, render
 from django.contrib import messages
 from AuctionApp.models import *
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+from django.contrib.auth import logout
+from django.contrib.auth import authenticate
+
 
 def home(request):
     auctions = User.objects.order_by('id')
@@ -13,10 +18,6 @@ def home(request):
     if request.method == "POST":
         return render(request, "register_user.html")
 
-    if request.session['loggedin']:
-        messages.warning(request, 'We are logged in')
-
-
     return render(request, "index.html", {'auctions': auctions, 'loggedin': request.session['loggedin']})
 
 
@@ -24,13 +25,15 @@ def reg_user(request):
     #REMEMBER TO PREVENT SQL-INJECTION
     if request.POST["pword"].strip() == request.POST["vpword"]:
 
-        newUser = User.objects.create()
-        newUser.address = request.POST["address"].strip()
-        newUser.email = request.POST["email"].strip()
-        newUser.password = request.POST["pword"].strip()
-        newUser.firstname = request.POST["fname"].strip()
-        newUser.surname = request.POST["sname"].strip()
-        newUser.save()
+        email = request.POST["email"].strip()
+        password = request.POST["pword"].strip()
+        firstname = request.POST["fname"].strip()
+        surname = request.POST["sname"].strip()
+
+        tmpUser = User.objects.create_user(email, email, password)
+        tmpUser.last_name = surname
+        tmpUser.first_name = firstname
+        tmpUser.save()
 
         messages.success(request, 'New user has been created!')
         return HttpResponseRedirect("/auctionhouse/")
@@ -41,22 +44,34 @@ def reg_user(request):
         return HttpResponseRedirect("/auctionhouse/")
 
 
-def login(request):
+def log_in(request):
 
-    request.session['loggedin'] = 1
+    username = request.POST["email"]
+    password = request.POST["pword"]
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            request.session['loggedin'] = True
+            messages.success(request, 'LOGGED IN SUCCESSFULLY')
+        else:
+            messages.error(request, 'FAILED TO LOG IN')
+
+    else:
+        messages.error(request, 'Invalid password or Username')
+
+    return HttpResponseRedirect("/auctionhouse/")
+
+
+def log_out(request):
+
+    logout(request)
+    messages.success(request, 'Successfully logged out!')
+    return HttpResponseRedirect("/auctionhouse/")
+
+
+def get_user(request):
+
     tmpUser = User.objects.get(email=request.POST["email"].strip())
-
-    if tmpUser.checkPassword(request.POST["pword"].strip()):
-        messages.success(request, 'LOGGED IN SUCCESSFULLY')
-
-    return HttpResponseRedirect("/auctionhouse/")
-
-
-def logout(request):
-
-    if request.method == "POST" and request.session['loggedin'] == True:
-        request.session['loggedin'] = False
-        request.session.flush()
-        
-
-    return HttpResponseRedirect("/auctionhouse/")
+    return render(request, "user_profile.html", {'user': tmpUser})

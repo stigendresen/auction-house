@@ -28,6 +28,12 @@
 
 		<input type="submit" value="Log in">
 	</form>
+
+    <form action="/auctionhouse/" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Register">
+    </form>
+    <br>
 	{% endif %}
 
 	{% if messages %}
@@ -38,11 +44,6 @@
         </ul>
     {% endif %}
 
-    <form action="/auctionhouse/" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Register">
-    </form>
-    <br>
 
 
 	<h3>Active Auctions:</h3>
