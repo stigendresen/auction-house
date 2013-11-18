@@ -5,8 +5,8 @@ Simple Auction web (Django &amp; python)
 
 An adventure into JetBrains pyCharm. 
 
-Regards 
+Regards. 
 
-Heino Christian Sirviö <br>
+Heino Kristian Sirviö <br>
 Stig Endresen
 
