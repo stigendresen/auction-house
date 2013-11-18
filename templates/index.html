@@ -33,6 +33,7 @@
         {% csrf_token %}
         <input type="submit" value="Register">
     </form>
+
     <br>
 	{% endif %}
 
@@ -44,7 +45,10 @@
         </ul>
     {% endif %}
 
-
+    <form action="/addauction/" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Create Auction">
+    </form>
 
 	<h3>Active Auctions:</h3>
 
@@ -84,12 +88,6 @@
         <hr>
 
     {% endfor %}
-
-    <form action="/resetcounters/" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Reset Counters">
-        <br><br>
-    </form>
 
     -->
 
