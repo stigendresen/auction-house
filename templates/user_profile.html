@@ -1,21 +1,25 @@
-{% extends "head.html" %}
+{% include "head.html" %}
 
 <header>
 	<div id="header">
 		<h1>User profile page.</h1>
 	</div>
 </header>
-{% extends "body.html" %}
+
+{% include "body.html" %}
+
+
 <aside>
 	<div id="aside"></div>
 </aside>
 <article>
 	<div>
-		Username: {{ user.username }}
-		Password: {{ user.password }}
-		Email:  {{ user.email }}
-		First name: {{ user.first_name }}
-		Surname: {{ user.last_name }}
+		Username: {{ user.username }}<br>
+		Password: {{ user.password }}<br>
+		Email:  {{ user.email }}<br>
+		First name: {{ user.first_name }}<br>
+		Surname: {{ user.last_name }}<br>
 	</div>
 </article>
-{% extends "footer.html" %}
+
+{% include "footer.html" %}

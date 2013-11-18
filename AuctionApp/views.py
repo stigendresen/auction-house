@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 
 
 def home(request):
@@ -73,5 +75,30 @@ def log_out(request):
 
 def get_user(request):
 
-    tmpUser = User.objects.get(email=request.POST["email"].strip())
+    print request.user.username
+    tmpUser = request.user
     return render(request, "user_profile.html", {'user': tmpUser})
+
+
+@login_required(login_url="/auctionhouse/")
+def add_auction(request):
+
+    auction = Auction.objects.get(ownerid=request.user)
+    auction.title = request.POST["title"]
+    auction.content = request.POST["description"]
+    auction.minprice = request.POST["minprice"]
+    auction.save()
+
+
+def show_auction(request, auction_id):
+
+    auction = Auction.objects.get(id=auction_id)
+    return render(request, "show_auction.html", {'auction': auction})
+
+
+def create_auction(request):
+
+    auction = Auction.objects.create(ownerid=request.user)
+    tmp_str = '/auction/' + str(auction.id)
+    return HttpResponseRedirect(tmp_str)
+

@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
 
+
 class Auction (models.Model):
 
     id = models.AutoField(primary_key=True)
