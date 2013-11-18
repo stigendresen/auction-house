@@ -1,9 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Edit Auction ERROR</title>
-</head>
-<body>
+{% include "head.html" %}
 
-</body>
-</html>
+{% comment %}   The head.html should be inherited parent when template design have been completed.
+				It`s work in progress.
+	{% endcomment %}
+
+{% include "body.html" %}
+<article>
+	<div id="edit_auction_error">
+		<p>Error creating auction</p>
+	</div>
+</article>
+{% include "body.html" %}

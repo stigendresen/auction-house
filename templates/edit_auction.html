@@ -1,9 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Edit Auction</title>
-</head>
-<body>
+{% include "head.html" %}
 
-</body>
-</html>
+{% comment %}   The head.html should be inherited parent when template design have been completed.
+				It`s work in progress.
+	{% endcomment %}
+
+{% include "body.html" %}
+
+
+<article>
+	<div id="content">
+		<h1>Edit current auction<br></h1>
+		id: {{ auction.id }}<br>
+		title: {{ auction.title }}<br>
+		description: {{ auction.content }}<br>
+		price:  {{ auction.min_price }}<br>
+		bid: {{ auction.latest_bid_by }}<br>
+		owner: {{ auction.ownerid.username }}<br>
+	</div>
+		{{  if user == auction.ownerid }}
+		<div id="edit_button">
+			<form action="/editauction/{{ auction.id }}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Edit">
+            </form>
+		</div>
+</article>
+
+{% include "footer.html" %}
