@@ -1,9 +1,9 @@
-<!doctype html>
-<html>
-<head>
-    <title>BP's AuctionHouse</title>
-</head>
-<body>
+{% include "head.html" %}
+{% comment %}   The head.html should be inherited parent when template design have been completed.
+				It`s work in progress.
+	{% endcomment %}
+
+{% include "body.html" %}
 
 	{% if loggedin == True %}
 	<h3>Log Out:</h3>
@@ -94,6 +94,4 @@
     {% endfor %}
 
     -->
-
-</body>
-</html>
+{% include "footer.html" %}
