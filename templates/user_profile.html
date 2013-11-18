@@ -1,9 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>User Profiles</title>
-</head>
-<body>
+{% extends "head.html" %}
 
-</body>
-</html>
+<header>
+	<div id="header">
+		<h1>User profile page.</h1>
+	</div>
+</header>
+{% extends "body.html" %}
+<aside>
+	<div id="aside"></div>
+</aside>
+<article>
+	<div>
+		Username: {{ user.username }}
+		Password: {{ user.password }}
+		Email:  {{ user.email }}
+		First name: {{ user.first_name }}
+		Surname: {{ user.last_name }}
+	</div>
+</article>
+{% extends "footer.html" %}
