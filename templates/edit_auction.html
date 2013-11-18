@@ -9,21 +9,23 @@
 
 <article>
 	<div id="content">
-	    <form action="/editauction/" method="post">
-
-	    <label>Auction ID: </label><br>
-        <input type="text" name="auction_id" value="{{ auction.id }}"><br>
+	    <form action="/addauction/" method="post">
+		{% csrf_token %}
+	    <label>Auction ID: {{ auction.id }} </label><br>
 	    <label>Title: </label><br>
-        <input type="text" name="auction_title" value="{{ auction.title }}"><br>
+        <input type="text" name="auction_title" value="{{ auction.title }}" /><br>
 		<label>Description: </label><br>
-        <input type="text" name="auction_content" value="{{ auction.content }}"><br>
+        <textarea rows="10" cols="40" name="auction_content">
+	        {{ auction.content }}<br>
+        </textarea>
 		<label>End time: </label><br>
-        <input type="text" name="auction_endtime" value="{{ auction.endtime }}"><br>
+        <input type="text" name="auction_endtime" value="{{ auction.endtime }}" /><br>
 		<label>Start time: </label><br>
-        <input type="text" name="auction_starttime" value="{{ auction.endtime }}"><br>
+        <input type="text" name="auction_starttime" value="{{ auction.starttime }}" /><br>
 		<label>Minimum bid: </label><br>
-        <input type="text" name="auction_minprice" value="{{ auction.minprice }}"><br>
-
+        <input type="text" name="auction_min_price" value="{{ auction.min_price }}" /><br>
+		<input type="hidden" name="version" value="auctionversion" />
+	    </form>
 		{% if user == auction.ownerid %}
 		<div id="publish_button">
 			<form action="/editauction/{{ auction.id }}/" method="post">
