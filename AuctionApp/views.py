@@ -8,11 +8,15 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
+from datetime import datetime, timedelta
 
 
 def home(request):
-    auctions = User.objects.order_by('id')
+
+    if request.user.is_superuser:
+        auctions = Auction.objects.order_by('starttime')
+    else:
+        auctions = Auction.objects.filter(is_active=True)
 
     if not 'loggedin' in request.session:
         request.session['loggedin'] = 0
@@ -20,14 +24,16 @@ def home(request):
     if request.method == "POST":
         return render(request, "register_user.html")
 
-    return render(request, "index.html", {'auctions': auctions, 'loggedin': request.session['loggedin']})
+    return render(request, "index.html", {'auctions': auctions, 'loggedin': request.session['loggedin'],
+                                          'user': request.user})
 
 
 def reg_user(request):
     #REMEMBER TO PREVENT SQL-INJECTION
     if request.POST["pword"].strip() == request.POST["vpword"]:
-
+        #RegExp for email?
         email = request.POST["email"].strip()
+        #Make sure not to forget password
         password = request.POST["pword"].strip()
         firstname = request.POST["fname"].strip()
         surname = request.POST["sname"].strip()
@@ -82,12 +88,18 @@ def get_user(request):
 
 @login_required(login_url="/auctionhouse/")
 def add_auction(request):
+    #KOLLA TIDEN
+    
+    if request.method == "POST":
 
-    auction = Auction.objects.get(ownerid=request.user)
-    auction.title = request.POST["title"]
-    auction.content = request.POST["description"]
-    auction.minprice = request.POST["min_price"]
-    auction.save()
+        auction = Auction.objects.get(id=request.POST["id"])
+        auction.title = request.POST["title"]
+        auction.content = request.POST["content"]
+        auction.minprice = request.POST["min_price"]
+        auction.save()
+
+        messages.success(request, 'Auction Published')
+        return HttpResponseRedirect("/userprofile/")
 
 
 def show_auction(request, auction_id):
@@ -96,6 +108,7 @@ def show_auction(request, auction_id):
     return render(request, "show_auction.html", {'auction': auction, 'user': request.user})
 
 
+@login_required(login_url="/auctionhouse/")
 def create_auction(request):
 
     auction = Auction.objects.create(ownerid=request.user)
@@ -107,9 +120,11 @@ def create_auction(request):
 def edit_auction(request, auction_id):
 
     auction = Auction.objects.get(id=auction_id)
+    tmp_endtime = datetime.now() + timedelta(hours=72)
 
     return render_to_response("edit_auction.html",
-                              {'auction': auction}, context_instance=RequestContext(request))
+                              {'auction': auction, 'possible_endtime': tmp_endtime
+                              }, context_instance=RequestContext(request))
 
 
 @login_required(login_url="/auctionhouse/")

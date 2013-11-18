@@ -10,30 +10,27 @@
 <article>
 	<div id="content">
 	    <form action="/addauction/" method="post">
-		{% csrf_token %}
-	    <label>Auction ID: {{ auction.id }} </label><br>
-	    <label>Title: </label><br>
-        <input type="text" name="auction_title" value="{{ auction.title }}" /><br>
-		<label>Description: </label><br>
-        <textarea rows="10" cols="40" name="auction_content">
-	        {{ auction.content }}<br>
-        </textarea>
-		<label>End time: </label><br>
-        <input type="text" name="auction_endtime" value="{{ auction.endtime }}" /><br>
-		<label>Start time: </label><br>
-        <input type="text" name="auction_starttime" value="{{ auction.starttime }}" /><br>
-		<label>Minimum bid: </label><br>
-        <input type="text" name="auction_min_price" value="{{ auction.min_price }}" /><br>
-		<input type="hidden" name="version" value="auctionversion" />
-	    </form>
-		{% if user == auction.ownerid %}
-		<div id="publish_button">
-			<form action="/editauction/{{ auction.id }}/" method="post">
-                {% csrf_token %}
-                <input type="submit" value="Publish">
-            </form>
-		</div>
-        {% endif %}
+            {% csrf_token %}
+            <label>Auction ID: {{ auction.id }} </label><br>
+            <label>Title: </label><br>
+            <input type="text" name="title" value="{{ auction.title }}" /><br>
+            <label>Description: </label><br>
+            <textarea rows="10" cols="40" name="content">{{ auction.content }}</textarea>
+             <br>
+            {% if auction.is_active %}
+            <label>Start time: {{ auction.starttime }}</label><br>
+            {% endif %}
+            <label>End time: (By default 72 hours from publish)<br>
+            Format: H:i d-m-Y</label><br>
+            <input type="text" name="endtime" value="{{ possible_endtime|date:'H:i d-m-Y' }}" /><br>
+
+            <label>Minimum bid: </label><br>
+            <input type="text" name="min_price" value="{{ auction.min_price }}" />€<br>
+            <input type="hidden" name="id" value="{{ auction.id }}" />
+            <input type="hidden" name="version" value="{{ version }}" />
+            {% csrf_token %}
+            <input type="submit" value="Publish">
+        </form>
 
 </article>
 

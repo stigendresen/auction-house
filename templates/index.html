@@ -31,7 +31,7 @@
 		<label>E-mail: </label><br>
 	    <input type="text" name="email" value=""><br>
 		<label>Password: </label><br>
-	    <input type="text" name="pword" value=""><br>
+	    <input type="text" name="pword"  value=""><br>
 
 		{% csrf_token %}
 
@@ -58,8 +58,16 @@
 
 	{% for i in auctions %}
 
-        {{ i.id }}: {{ i.email }}
+        Title: {{ i.title }}<br>
+        Creater: {{ i.ownerid.username }}<br>
         <br>
+
+        {% if user.is_superuser %}
+        <form action="/deleteauction/{{ i.id }}/" method="post">
+            {% csrf_token %}
+            <input type="submit" name="delauction" value="Delete Auction">
+        </form>
+        {% endif %}
 		<hr>
 		<br>
 

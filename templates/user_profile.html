@@ -31,14 +31,21 @@
 
 	    {% for i in auctions %}
             Auction: {{ i.title }}
+            <form action="/auction/{{ i.id }}/" method="post">
+                {% csrf_token %}
+                <input type="submit" name="showauction" value="Show Auction">
+            </form>
             <form action="/editauction/{{ i.id }}/" method="post">
                 {% csrf_token %}
                 <input type="submit" name="editauction" value="Edit Auction">
             </form>
+
+            {% if user.is_superuser %}
             <form action="/deleteauction/{{ i.id }}/" method="post">
                 {% csrf_token %}
                 <input type="submit" name="delauction" value="Delete Auction">
             </form>
+            {% endif %}
             <hr>
 	    {% endfor %}
     </div>
