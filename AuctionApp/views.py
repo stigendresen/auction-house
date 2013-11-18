@@ -75,9 +75,9 @@ def log_out(request):
 
 def get_user(request):
 
-    print request.user.username
-    tmpUser = request.user
-    return render(request, "user_profile.html", {'user': tmpUser})
+    tmp_user = request.user
+    auctions = Auction.objects.filter(ownerid=tmp_user)
+    return render(request, "user_profile.html", {'user': tmp_user, 'auctions': auctions})
 
 
 @login_required(login_url="/auctionhouse/")
@@ -86,20 +86,45 @@ def add_auction(request):
     auction = Auction.objects.get(ownerid=request.user)
     auction.title = request.POST["title"]
     auction.content = request.POST["description"]
-    auction.minprice = request.POST["minprice"]
+    auction.minprice = request.POST["min_price"]
     auction.save()
 
 
 def show_auction(request, auction_id):
 
     auction = Auction.objects.get(id=auction_id)
-    return render(request, "show_auction.html", {'auction': auction})
+    return render(request, "show_auction.html", {'auction': auction, 'user': request.user})
 
 
 def create_auction(request):
 
     auction = Auction.objects.create(ownerid=request.user)
     tmp_str = '/auction/' + str(auction.id)
-    
+
     return HttpResponseRedirect(tmp_str)
 
+
+def edit_auction(request, auction_id):
+
+    auction = Auction.objects.get(id=auction_id)
+
+    return render_to_response("edit_auction.html",
+                              {'auction': auction}, context_instance=RequestContext(request))
+
+
+@login_required(login_url="/auctionhouse/")
+def delete_auction(request, auction_id):
+
+    if request.method == "POST":
+
+        try:
+            auction = Auction.objects.get(id=auction_id)
+            auction.delete()
+            messages.success(request, "Auction deleted!")
+
+        except:
+            return HttpResponse('Auction does not exist')
+
+        return HttpResponseRedirect("/userprofile/")
+
+    return

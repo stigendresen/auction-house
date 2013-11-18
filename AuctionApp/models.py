@@ -9,11 +9,14 @@ class Auction (models.Model):
     ownerid = models.ForeignKey(User)
     starttime = models.DateTimeField(default=datetime.now(), blank=True)
     endtime = models.DateTimeField(default=datetime.now(), blank=True)
-    title = models.CharField(max_length=30)
+    title = models.CharField(max_length=30, default="New Auction")
     content = models.TextField()
     version = models.IntegerField(default=0)
-    minprice = models.FloatField(default=0.00)
+    min_price = models.FloatField(default=0.00)
+    is_active = models.BooleanField(default=False)
+    is_locked = models.BooleanField(default=False)
+    latest_bid_by = models.CharField(max_length=30)
 
     @classmethod
     def getById (cls, auction_id):
-        return cls.objects.get(id = auction_id)
+        return cls.objects.get(id=auction_id)
