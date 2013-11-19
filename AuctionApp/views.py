@@ -116,7 +116,7 @@ def add_auction(request):
         auction.title = request.POST["title"]
         auction.min_price = request.POST["min_price"]
         auction.content = request.POST["content"]
-        #FIX TIME
+
         endtime = request.POST["endtime"]
         tmp_time = datetime.strptime(endtime, '%H:%M %d-%m-%Y')
 
