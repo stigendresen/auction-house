@@ -1,0 +1,12 @@
+## '+++' = Add task.
+## '---' = Del task.
+## '***' = Completed task.
+
++++ 2013111901 Add Cascading style.
++++ 2013111902 Restructure template folder.
++++ 2013111903 Put reusable template code into snippet files.
++++ 2013111904 Improve templates with Django tags where it is possible.
++++ 2013111905 Verify registration email address.
++++ 2013111906 Add MH for sending email.
++++ 2013111907 Create mail templates for register, bid changes, bid result, and reset password.
++++ 2013111908 Implement bid rules according to minimal requirements in DEWAS-1314 descriptions.
