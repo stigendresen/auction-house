@@ -33,10 +33,13 @@ def reg_user(request):
     #REMEMBER TO PREVENT SQL-INJECTION
     if request.POST["pword"].strip() == request.POST["vpword"]:
 
+        username = request.POST["uname"]
+
+        if len(User.objects.filter(username=username)) > 0:
+            return HttpResponse("Username already exists")
+
         email = request.POST["email"]
         password = request.POST["pword"].strip()
-        firstname = request.POST["fname"].strip()
-        surname = request.POST["sname"].strip()
 
         if re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email):
             email = request.POST["email"].strip()
@@ -47,8 +50,10 @@ def reg_user(request):
         else:
             return HttpResponse("Invalid email-address")
 
+        firstname = request.POST["fname"].strip()
+        surname = request.POST["sname"].strip()
 
-        tmpUser = User.objects.create_user(email, email, password)
+        tmpUser = User.objects.create_user(username, email, password)
         tmpUser.last_name = surname
         tmpUser.first_name = firstname
         tmpUser.save()
