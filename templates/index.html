@@ -65,8 +65,8 @@
 
 {% for i in auctions %}
 
-	Title: {{ i.title }}<br>
-	Creater: {{ i.ownerid.username }}<br>
+	Title: <a href="/auction/{{ i.id }}/" >{{ i.title }}</a><br>
+	Price: {{ i.min_price }}<br>
 	<br>
 
 	{% if user.is_superuser %}

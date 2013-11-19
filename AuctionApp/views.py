@@ -105,12 +105,14 @@ def get_user(request):
 def add_auction(request):
     #KOLLA TIDEN
 
-    if request.method == "POST":
+    if request.method == "POST" and request.POST.has_key('content') and request.POST.has_key('title') and \
+            request.POST.has_key('endtime') and request.POST.has_key('id') and request.POST.has_key('version'):
 
         auction = Auction.objects.get(id=request.POST["id"])
+        auction.is_active = True
         auction.title = request.POST["title"]
         auction.content = request.POST["content"]
-        auction.minprice = request.POST["min_price"]
+        auction.min_price = request.POST["min_price"]
         auction.save()
 
         messages.success(request, 'Auction Published')
