@@ -11,9 +11,7 @@
 <article>
 	<div id="content">
 		<form action="/addauction/" method="post">
-
-			{% csrf_token %}
-
+            {% csrf_token %}
             <label>Auction ID: {{ auction.id }} </label><br>
 			<label>Title: </label><br>
 			<input type="text" name="title" value="{{ auction.title }}"/><br>
@@ -24,26 +22,26 @@
 
 			{% if auction.is_active %}
 				<label>Start time: {{ auction.starttime }}</label><br>
-			{% endif %}
+                <label>Minimum bid: {{ auction.min_price }}</label><br>
+                <label>End-time: {{ auction.endtime }}</label><br>
+			{% elif auction.is_active == False %}
+                <label>Minimum bid: </label><br>
+	    		<input type="text" name="min_price" value="{{ auction.min_price }}"/>€<br>
 
-			{% if auction.is_locked == False %}
-				<label>End-time: (Needs to be at least 72 hours from publish)<br>
-					   Format: H:i d-m-Y</label><br>
+                <label>End-time: (Needs to be at least 72 hours from publish)<br>
+				    Format: 23:59 31-12-2013</label><br>
 
                 <input type="text" name="endtime" value="{{ possible_endtime|date:'H:i d-m-Y' }}"/><br>
-			{% elif auction.is_locked %}
-				{{ auction.endtime }}<br>
-			{% endif %}
 
-			<label>Minimum bid: </label><br>
-			<input type="text" name="min_price" value="{{ auction.min_price }}"/>€<br>
+            {% endif %}
 
+            <input type="submit" value="Publish">
             <input type="hidden" name="id" value="{{ auction.id }}"/>
 			<input type="hidden" name="version" value="{{ version }}"/>
 
-            <input type="submit" value="Publish">
-		</form>
 
+		</form>
+    </div>
 </article>
 
 {% include "footer.html" %}

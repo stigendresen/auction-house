@@ -100,36 +100,48 @@ def get_user(request):
 
 @login_required(login_url="/auctionhouse/")
 def add_auction(request):
-    if request.method == "POST" and request.POST.has_key('content') and request.POST.has_key('title') and \
-            request.POST.has_key('endtime') and request.POST.has_key('id') and request.POST.has_key('version'):
+
+    if request.method == "POST" and \
+            request.POST.has_key('content') and \
+            request.POST.has_key('id') and \
+            request.POST.has_key('version'):
 
         auction = Auction.objects.get(id=request.POST["id"])
+
+        if auction.is_locked:
+            return render_to_response("AUCTION IS BANNED")
 
         if len(request.POST["title"]) < 5:
             return HttpResponse("Title is too short")
 
-        auction.title = request.POST["title"]
-        auction.min_price = request.POST["min_price"]
-        auction.content = request.POST["content"]
+        if auction.is_active:
+            auction.content = request.POST["content"]
 
-        endtime = request.POST["endtime"]
-        tmp_time = datetime.strptime(endtime, '%H:%M %d-%m-%Y')
+        elif not auction.is_active:
+            auction.title = request.POST["title"]
+            auction.min_price = request.POST["min_price"]
+            endtime = request.POST["endtime"]
+            auction.content = request.POST["content"]
 
-        if datetime.utcnow() > (tmp_time - timedelta(hours=72)):
-            return HttpResponse("The end-time is invalid")
+            tmp_time = datetime.strptime(endtime, '%H:%M %d-%m-%Y')
 
-        tmp_time = tmp_time.replace(tzinfo=utc)
-        auction.endtime = tmp_time
+            if datetime.utcnow() > (tmp_time - timedelta(hours=72)):
+                return HttpResponse("The end-time is invalid")
+
+            tmp_time = tmp_time.replace(tzinfo=utc)
+            auction.endtime = tmp_time
 
         try:
             auction.is_active = True
-            auction.is_locked = True
             auction.save()
+
         except:
             return HttpResponse("ERROR!: Could not publish auction, \nCheck values!")
 
         messages.success(request, 'Auction Published')
         return HttpResponseRedirect("/userprofile/")
+
+    return HttpResponse("Testing")
 
 
 def show_auction(request, auction_id):
