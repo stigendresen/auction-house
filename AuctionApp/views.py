@@ -8,7 +8,8 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, tzinfo
+from django.utils.timezone import utc
 import re
 
 
@@ -103,17 +104,34 @@ def get_user(request):
 
 @login_required(login_url="/auctionhouse/")
 def add_auction(request):
-    #KOLLA TIDEN
 
     if request.method == "POST" and request.POST.has_key('content') and request.POST.has_key('title') and \
             request.POST.has_key('endtime') and request.POST.has_key('id') and request.POST.has_key('version'):
 
         auction = Auction.objects.get(id=request.POST["id"])
-        auction.is_active = True
+
+        if len(request.POST["title"]) < 5:
+            return HttpResponse("Title is too short")
+
         auction.title = request.POST["title"]
-        auction.content = request.POST["content"]
         auction.min_price = request.POST["min_price"]
-        auction.save()
+        auction.content = request.POST["content"]
+        #FIX TIME
+        endtime = request.POST["endtime"]
+        tmp_time = datetime.strptime(endtime, '%H:%M %d-%m-%Y')
+
+        if datetime.utcnow() > (tmp_time - timedelta(hours=72)):
+            return HttpResponse("The end-time is invalid")
+
+        tmp_time = tmp_time.replace(tzinfo=utc)
+        auction.endtime = tmp_time
+
+        try:
+            auction.is_active = True
+            auction.is_locked = True
+            auction.save()
+        except:
+            return HttpResponse("ERROR!: Could not publish auction, \nCheck values!")
 
         messages.success(request, 'Auction Published')
         return HttpResponseRedirect("/userprofile/")
@@ -157,9 +175,7 @@ def delete_auction(request, auction_id):
         except:
             return HttpResponse('Auction does not exist')
 
-        return HttpResponseRedirect("/userprofile/")
-
-    return
+        return HttpResponseRedirect("/auctionhouse/")
 
 
 def get_current_url(request):
