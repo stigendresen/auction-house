@@ -54,18 +54,18 @@
 	</ul>
 {% endif %}
 
-    <form action="/searchauction/" method="get">
-        <label>Search for an Auction:</label><br>
-        <input type="search" name="searchauction">
-        {% csrf_token %}
-        <input type="submit" name="searchbutton" value="Search">
-    </form>
+<form action="/searchauction/" method="get">
+	<label>Search for an Auction:</label><br>
+	<input type="search" name="searchauction">
+	{% csrf_token %}
+	<input type="submit" name="searchbutton" value="Search">
+</form>
 
 <h3>Active Auctions:</h3>
 
 {% for i in auctions %}
 
-	Title: <a href="/auction/{{ i.id }}/" >{{ i.title }}</a><br>
+	Title: <a href="/auction/{{ i.id }}/">{{ i.title }}</a><br>
 	Price: {{ i.min_price }}<br>
 	<br>
 

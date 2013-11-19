@@ -4,8 +4,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
-class Auction (models.Model):
-
+class Auction(models.Model):
     id = models.AutoField(primary_key=True)
     ownerid = models.ForeignKey(User)
     starttime = models.DateTimeField(default=datetime.now(), blank=True)
@@ -19,5 +18,5 @@ class Auction (models.Model):
     latest_bid_by = models.CharField(max_length=30)
 
     @classmethod
-    def getById (cls, auction_id):
+    def getById(cls, auction_id):
         return cls.objects.get(id=auction_id)

@@ -33,7 +33,7 @@
 		{% for i in auctions %}
 			Auction: {{ i.title }}<br>
 			Published: {{ i.is_active }}
-            <form action="/auction/{{ i.id }}/" method="post">
+			<form action="/auction/{{ i.id }}/" method="post">
 				{% csrf_token %}
 				<input type="submit" name="showauction" value="Show Auction">
 			</form>
