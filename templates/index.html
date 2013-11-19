@@ -54,6 +54,13 @@
 	</ul>
 {% endif %}
 
+    <form action="/searchauction/" method="get">
+        <label>Search for an Auction:</label><br>
+        <input type="search" name="searchauction">
+        {% csrf_token %}
+        <input type="submit" name="searchbutton" value="Search">
+    </form>
+
 <h3>Active Auctions:</h3>
 
 {% for i in auctions %}
@@ -73,33 +80,4 @@
 
 {% endfor %}
 
-<!--
-
-    <br>
-    <hr>
-
-    {% for i in blogs %}
-
-        {{ i.id }}: {{ i.title }}<br>
-        Created: {{ i.timestamp }}
-        Version: {{ i.version }}
-
-        <form action="/myblog/{{ i.id }}/" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Show Blog">
-        </form>
-        <form action="/deleteblog/{{ i.id }}/" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Delete Blog">
-        </form>
-        <form action="/editblog/{{ i.id }}/" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Edit Blog">
-        </form>
-
-        <hr>
-
-    {% endfor %}
-
-    -->
 {% include "footer.html" %}
