@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
+import re
 
 
 def home(request):
@@ -31,12 +32,21 @@ def home(request):
 def reg_user(request):
     #REMEMBER TO PREVENT SQL-INJECTION
     if request.POST["pword"].strip() == request.POST["vpword"]:
-        #RegExp for email?
-        email = request.POST["email"].strip()
-        #Make sure not to forget password
+
+        email = request.POST["email"]
         password = request.POST["pword"].strip()
         firstname = request.POST["fname"].strip()
         surname = request.POST["sname"].strip()
+
+        if re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email):
+            email = request.POST["email"].strip()
+
+            if len(password) < 5:
+                return HttpResponse("Password needs to be at least 4 characters long")
+
+        else:
+            return HttpResponse("Invalid email-address")
+
 
         tmpUser = User.objects.create_user(email, email, password)
         tmpUser.last_name = surname
@@ -89,7 +99,7 @@ def get_user(request):
 @login_required(login_url="/auctionhouse/")
 def add_auction(request):
     #KOLLA TIDEN
-    
+
     if request.method == "POST":
 
         auction = Auction.objects.get(id=request.POST["id"])
@@ -143,6 +153,7 @@ def delete_auction(request, auction_id):
         return HttpResponseRedirect("/userprofile/")
 
     return
+
 
 def get_current_url(request):
     return render_to_response('/', {}, context_instance=RequestContext(request))
