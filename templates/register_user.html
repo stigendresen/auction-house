@@ -1,6 +1,7 @@
 {% include "head.html" %}
-{% comment %}   The head.html should be inherited parent when template design have been completed.
-				It`s work in progress.
+{% comment %}
+    The head.html should be inherited parent when template design have been completed.
+	It`s work in progress.
 {% endcomment %}
 
 {% include "body.html" %}
@@ -11,23 +12,28 @@
 
 	<label>Username: </label><br>
 	<input type="text" name="uname" value=""><br>
-	<label>First name: </label><br>
-	<input type="text" name="fname" value=""><br>
-	<label>Surnamename: </label><br>
-	<input type="text" name="sname" value=""><br>
-	<label>Password: </label><br>
-	<input type="password" name="pword" value=""><br>
-	<label>Retype Password: </label><br>
-	<input type="password" name="vpword" value=""><br>
-	<label>Email: </label><br>
-	<input type="email" name="email" value=""><br>
 
-	<br>
+    <label>First name: </label><br>
+	<input type="text" name="fname" value=""><br>
+
+    <label>Surnamename: </label><br>
+	<input type="text" name="sname" value=""><br>
+
+    <label>Password: </label><br>
+	<input type="password" name="pword" value=""><br>
+
+    <label>Retype Password: </label><br>
+	<input type="password" name="vpword" value=""><br>
+
+    <label>Email: </label><br>
+	<input type="email" name="email" value=""><br><br>
+
+    {% csrf_token %}
+
 	<label>Address: </label><br>
-	{% csrf_token %}
-	<textarea name="address" cols="40" rows="3"></textarea>
-	<br>
-	<input type="submit" value="Save">
+	<textarea name="address" cols="40" rows="3"></textarea><br>
+
+    <input type="submit" value="Save">
 
 </form>
 

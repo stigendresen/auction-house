@@ -10,4 +10,3 @@
 +++ 2013111906 Add MH for sending email.
 +++ 2013111907 Create mail templates for register, bid changes, bid result, and reset password.
 +++ 2013111908 Implement bid rules according to minimal requirements in DEWAS-1314 descriptions.
-+++ 2013111909 Fix routine while editing auction with different ownership.

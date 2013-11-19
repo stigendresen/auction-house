@@ -13,14 +13,16 @@
 		First name: {{ user.first_name }}<br>
 		Surname: {{ user.last_name }}<br>
 	</div>
-	<br>
-	<hr>
+
+	<br><hr>
+
 	<div>
 		<form action="/auction/" method="post">
 			{% csrf_token %}
 			<input type="submit" value="Create Auction">
 		</form>
 		<hr>
+
 		{% if messages %}
 			<ul class="messages">
 				{% for message in messages %}
@@ -33,11 +35,13 @@
 		{% for i in auctions %}
 			Auction: {{ i.title }}<br>
 			Published: {{ i.is_active }}
+
 			<form action="/auction/{{ i.id }}/" method="post">
 				{% csrf_token %}
 				<input type="submit" name="showauction" value="Show Auction">
 			</form>
-			<form action="/editauction/{{ i.id }}/" method="post">
+
+            <form action="/editauction/{{ i.id }}/" method="post">
 				{% csrf_token %}
 				<input type="submit" name="editauction" value="Edit Auction">
 			</form>
@@ -49,7 +53,8 @@
 				</form>
 			{% endif %}
 			<hr>
-		{% endfor %}
+
+        {% endfor %}
 	</div>
 </article>
 

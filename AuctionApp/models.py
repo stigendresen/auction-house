@@ -7,8 +7,8 @@ from django.utils import timezone
 class Auction(models.Model):
     id = models.AutoField(primary_key=True)
     ownerid = models.ForeignKey(User)
-    starttime = models.DateTimeField(default=datetime.now(), blank=True)
-    endtime = models.DateTimeField(default=timezone.now(), )
+    starttime = models.DateTimeField(default=datetime.utcnow(), blank=True)
+    endtime = models.DateTimeField(default=timezone.now(), blank=True)
     title = models.CharField(max_length=30, default="New Auction")
     content = models.TextField()
     version = models.IntegerField(default=0)
