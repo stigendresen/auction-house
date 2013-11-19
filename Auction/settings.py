@@ -91,3 +91,5 @@ USE_TZ = True
 
 STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'static').replace('\\', '/'),)
 STATIC_URL = '/static/'
+
+ANALYTICS_ID = "UA-XXXXXXX-X"

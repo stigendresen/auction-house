@@ -1,26 +1,23 @@
 {% include "head.html" %}
-
-{% comment %}
-    The head.html should be inherited parent when template design have been completed.
-	It`s work in progress.
-{% endcomment %}
+{% comment %}   The head.html should be inherited parent when template design have been completed.
+				It`s work in progress.
+	{% endcomment %}
 
 {% include "body.html" %}
 
 {% if loggedin == True %}
 	<h3>Log Out:</h3>
+	<form action="/logout/" method="post">
 
-    <form action="/logout/" method="post">
-    	{% csrf_token %}
-    	<input type="submit" value="Log out">
+		{% csrf_token %}
+
+		<input type="submit" value="Log out">
 	</form>
-
-    <form action="/auction/" method="post">
+	<form action="/auction/" method="post">
 		{% csrf_token %}
 		<input type="submit" value="Create Auction">
 	</form>
-
-    <form action="/userprofile/" method="post">
+	<form action="/userprofile/" method="post">
 		{% csrf_token %}
 		<input type="submit" value="User Settings">
 	</form>
@@ -31,14 +28,10 @@
 {% if loggedin == False %}
 	<h3>Log In:</h3>
 	<form action="/login/" method="post">
-
-        <label>E-mail: </label><br>
-
-        <input type="text" name="email" value=""><br>
-
-        <label>Password: </label><br>
-
-        <input type="password" name="pword" value=""><br>
+		<label>E-mail: </label><br>
+		<input type="text" name="email" value=""><br>
+		<label>Password: </label><br>
+		<input type="password" name="pword" value=""><br>
 
 		{% csrf_token %}
 
@@ -61,20 +54,20 @@
 	</ul>
 {% endif %}
 
-    <form action="/searchauction/" method="get">
-        <label>Search for an Auction:</label><br>
-
-        <input type="search" name="searchauction">
-        {% csrf_token %}
-        <input type="submit" name="searchbutton" value="Search">
-    </form>
+<form action="/searchauction/" method="get">
+	<label>Search for an Auction:</label><br>
+	<input type="search" name="searchauction">
+	{% csrf_token %}
+	<input type="submit" name="searchbutton" value="Search">
+</form>
 
 <h3>Active Auctions:</h3>
 
 {% for i in auctions %}
 
-	Title: <a href="/auction/{{ i.id }}/" >{{ i.title }}</a><br>
-	Price: {{ i.min_price }}<br><br>
+	Title: <a href="/auction/{{ i.id }}/">{{ i.title }}</a><br>
+	Price: {{ i.min_price }}<br>
+	<br>
 
 	{% if user.is_superuser %}
 		<form action="/deleteauction/{{ i.id }}/" method="post">

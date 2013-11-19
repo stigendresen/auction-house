@@ -14,7 +14,6 @@ import re
 
 
 def home(request):
-
     if request.user.is_superuser:
         auctions = Auction.objects.order_by('starttime')
     else:
@@ -69,7 +68,6 @@ def reg_user(request):
 
 
 def log_in(request):
-
     username = request.POST["email"]
     password = request.POST["pword"]
     user = authenticate(username=username, password=password)
@@ -89,14 +87,12 @@ def log_in(request):
 
 
 def log_out(request):
-
     logout(request)
     messages.success(request, 'Successfully logged out!')
     return HttpResponseRedirect("/auctionhouse/")
 
 
 def get_user(request):
-
     tmp_user = request.user
     auctions = Auction.objects.filter(ownerid=tmp_user)
     return render(request, "user_profile.html", {'user': tmp_user, 'auctions': auctions})
@@ -104,7 +100,6 @@ def get_user(request):
 
 @login_required(login_url="/auctionhouse/")
 def add_auction(request):
-
     if request.method == "POST" and request.POST.has_key('content') and request.POST.has_key('title') and \
             request.POST.has_key('endtime') and request.POST.has_key('id') and request.POST.has_key('version'):
 
@@ -138,14 +133,12 @@ def add_auction(request):
 
 
 def show_auction(request, auction_id):
-
     auction = Auction.objects.get(id=auction_id)
     return render(request, "show_auction.html", {'auction': auction, 'user': request.user})
 
 
 @login_required(login_url="/auctionhouse/")
 def create_auction(request):
-
     auction = Auction.objects.create(ownerid=request.user)
     tmp_str = '/auction/' + str(auction.id)
 
@@ -153,7 +146,6 @@ def create_auction(request):
 
 
 def edit_auction(request, auction_id):
-
     auction = Auction.objects.get(id=auction_id)
     tmp_endtime = datetime.now() + timedelta(hours=72)
 
@@ -164,7 +156,6 @@ def edit_auction(request, auction_id):
 
 @login_required(login_url="/auctionhouse/")
 def delete_auction(request, auction_id):
-
     if request.method == "POST":
 
         try:
