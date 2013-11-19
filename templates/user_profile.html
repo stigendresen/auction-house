@@ -9,46 +9,47 @@
 	<div>
 		Username: {{ user.username }}<br>
 		Password: {{ user.password }}<br>
-		Email:  {{ user.email }}<br>
+		Email: {{ user.email }}<br>
 		First name: {{ user.first_name }}<br>
 		Surname: {{ user.last_name }}<br>
 	</div>
-    <br><hr>
-    <div>
-        <form action="/auction/" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Create Auction">
-        </form>
-        <hr>
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        <hr>
-        {% endif %}
+	<br>
+	<hr>
+	<div>
+		<form action="/auction/" method="post">
+			{% csrf_token %}
+			<input type="submit" value="Create Auction">
+		</form>
+		<hr>
+		{% if messages %}
+			<ul class="messages">
+				{% for message in messages %}
+					<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+				{% endfor %}
+			</ul>
+			<hr>
+		{% endif %}
 
-	    {% for i in auctions %}
-            Auction: {{ i.title }}
-            <form action="/auction/{{ i.id }}/" method="post">
-                {% csrf_token %}
-                <input type="submit" name="showauction" value="Show Auction">
-            </form>
-            <form action="/editauction/{{ i.id }}/" method="post">
-                {% csrf_token %}
-                <input type="submit" name="editauction" value="Edit Auction">
-            </form>
+		{% for i in auctions %}
+			Auction: {{ i.title }}
+			<form action="/auction/{{ i.id }}/" method="post">
+				{% csrf_token %}
+				<input type="submit" name="showauction" value="Show Auction">
+			</form>
+			<form action="/editauction/{{ i.id }}/" method="post">
+				{% csrf_token %}
+				<input type="submit" name="editauction" value="Edit Auction">
+			</form>
 
-            {% if user.is_superuser %}
-            <form action="/deleteauction/{{ i.id }}/" method="post">
-                {% csrf_token %}
-                <input type="submit" name="delauction" value="Delete Auction">
-            </form>
-            {% endif %}
-            <hr>
-	    {% endfor %}
-    </div>
+			{% if user.is_superuser %}
+				<form action="/deleteauction/{{ i.id }}/" method="post">
+					{% csrf_token %}
+					<input type="submit" name="delauction" value="Delete Auction">
+				</form>
+			{% endif %}
+			<hr>
+		{% endfor %}
+	</div>
 </article>
 
 {% include "footer.html" %}

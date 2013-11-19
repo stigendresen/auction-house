@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.template import RequestContext
 from django.shortcuts import render_to_response, render
 from django.contrib import messages
@@ -143,3 +143,6 @@ def delete_auction(request, auction_id):
         return HttpResponseRedirect("/userprofile/")
 
     return
+
+def get_current_url(request):
+    return render_to_response('/', {}, context_instance=RequestContext(request))

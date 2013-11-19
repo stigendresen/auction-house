@@ -5,7 +5,7 @@
 
 {% include "body.html" %}
 
-	{% if loggedin == True %}
+{% if loggedin == True %}
 	<h3>Log Out:</h3>
 	<form action="/logout/" method="post">
 
@@ -13,67 +13,67 @@
 
 		<input type="submit" value="Log out">
 	</form>
-    <form action="/auction/" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Create Auction">
-    </form>
-    <form action="/userprofile/" method="post">
-        {% csrf_token %}
-        <input type="submit" value="User Settings">
-    </form>
+	<form action="/auction/" method="post">
+		{% csrf_token %}
+		<input type="submit" value="Create Auction">
+	</form>
+	<form action="/userprofile/" method="post">
+		{% csrf_token %}
+		<input type="submit" value="User Settings">
+	</form>
 
-	{% endif %}
+{% endif %}
 
 
-	{% if loggedin == False %}
+{% if loggedin == False %}
 	<h3>Log In:</h3>
 	<form action="/login/" method="post">
 		<label>E-mail: </label><br>
-	    <input type="text" name="email" value=""><br>
+		<input type="text" name="email" value=""><br>
 		<label>Password: </label><br>
-	    <input type="text" name="pword"  value=""><br>
+		<input type="text" name="pword" value=""><br>
 
 		{% csrf_token %}
 
 		<input type="submit" value="Log in">
 	</form>
 
-    <form action="/auctionhouse/" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Register">
-    </form>
+	<form action="/auctionhouse/" method="post">
+		{% csrf_token %}
+		<input type="submit" value="Register">
+	</form>
 
-    <br>
+	<br>
+{% endif %}
+
+{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+<h3>Active Auctions:</h3>
+
+{% for i in auctions %}
+
+	Title: {{ i.title }}<br>
+	Creater: {{ i.ownerid.username }}<br>
+	<br>
+
+	{% if user.is_superuser %}
+		<form action="/deleteauction/{{ i.id }}/" method="post">
+			{% csrf_token %}
+			<input type="submit" name="delauction" value="Delete Auction">
+		</form>
 	{% endif %}
+	<hr>
+	<br>
 
-	{% if messages %}
-        <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
+{% endfor %}
 
-	<h3>Active Auctions:</h3>
-
-	{% for i in auctions %}
-
-        Title: {{ i.title }}<br>
-        Creater: {{ i.ownerid.username }}<br>
-        <br>
-
-        {% if user.is_superuser %}
-        <form action="/deleteauction/{{ i.id }}/" method="post">
-            {% csrf_token %}
-            <input type="submit" name="delauction" value="Delete Auction">
-        </form>
-        {% endif %}
-		<hr>
-		<br>
-
-	{% endfor %}
-
-	<!--
+<!--
 
     <br>
     <hr>
