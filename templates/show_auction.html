@@ -11,20 +11,20 @@
 	<div id="content">
 		<h1>Edit current auction<br></h1>
 
-        Owner: {{ auction.ownerid.username }}<br>
+		Owner: {{ auction.ownerid.username }}<br>
 		Title: {{ auction.title }}<br>
-        <hr>
+		<hr>
 		Description: <br><br>
 
-        {{ auction.content }}<br><br>
+		{{ auction.content }}<br><br>
 
-        <hr>
-        Price: {{ auction.min_price }}<br>
+		<hr>
+		Price: {{ auction.min_price }}<br>
 		Latest bidder: {{ auction.latest_bid_by }}<br>
-        Active: {{ auction.is_active }}<br><br>
-    </div>
+		Active: {{ auction.is_active }}<br><br>
+	</div>
 
-    {% if user == auction.ownerid %}
+	{% if user == auction.ownerid %}
 		<div id="edit_button">
 			<form action="/editauction/{{ auction.id }}/" method="post">
 				{% csrf_token %}

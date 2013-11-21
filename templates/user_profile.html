@@ -14,7 +14,8 @@
 		Surname: {{ user.last_name }}<br>
 	</div>
 
-	<br><hr>
+	<br>
+	<hr>
 
 	<div>
 		<form action="/auction/" method="post">
@@ -41,7 +42,7 @@
 				<input type="submit" name="showauction" value="Show Auction">
 			</form>
 
-            <form action="/editauction/{{ i.id }}/" method="post">
+			<form action="/editauction/{{ i.id }}/" method="post">
 				{% csrf_token %}
 				<input type="submit" name="editauction" value="Edit Auction">
 			</form>
@@ -54,7 +55,7 @@
 			{% endif %}
 			<hr>
 
-        {% endfor %}
+		{% endfor %}
 	</div>
 </article>
 

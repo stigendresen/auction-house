@@ -27,24 +27,27 @@
 {% endif %}
 
 {% if loggedin == False %}
-	<h3>Log In:</h3>
-	<form action="/login/" method="post">
+	<form class="form-container" action="/login/" method="post">
+		<div class="form-title"><h2>Welcome</h2></div>
+		<div class="form-title">Username/email:</div>
+		<input class="form-field" type="text" name="email" value=""><br>
 
-		<label>E-mail: </label><br>
-		<input type="text" name="email" value=""><br>
-
-		<label>Password: </label><br>
-		<input type="password" name="pword" value=""><br>
+		<div class="form-title">Password:</div>
+		<input class="form-field" type="password" name="pword" value=""><br>
 
 		{% csrf_token %}
+		<div class="submit-container">
+			<input class="submit-button" type="submit" value="Log in">
+		</div>
 
-		<input type="submit" value="Log in">
+		<form action="/auctionhouse/" method="post">
+			<div class="form-title"><h2>Or</h2></div>
+			{% csrf_token %}
+			<input class="submit-button" type="submit" value="Register">
+		</form>
+
 	</form>
 
-	<form action="/auctionhouse/" method="post">
-		{% csrf_token %}
-		<input type="submit" value="Register">
-	</form>
 
 	<br>
 {% endif %}
@@ -61,9 +64,9 @@
 	<label>Search for an Auction:</label><br>
 	<input type="search" name="searchauction">
 
-    {% csrf_token %}
+	{% csrf_token %}
 
-    <input type="submit" name="searchbutton" value="Search">
+	<input type="submit" name="searchbutton" value="Search">
 </form>
 
 <h3>Active Auctions:</h3>
