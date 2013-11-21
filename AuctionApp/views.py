@@ -100,7 +100,6 @@ def get_user(request):
 
 @login_required(login_url="/auctionhouse/")
 def add_auction(request):
-
     if request.method == "POST" and \
             request.POST.has_key('content') and \
             request.POST.has_key('id') and \
