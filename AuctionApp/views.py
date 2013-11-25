@@ -161,7 +161,14 @@ def add_auction(request):
 
 
 def show_auction(request, auction_id):
-    auction = Auction.objects.get(id=auction_id)
+
+    #IMPLEMENT BID
+
+    try:
+        auction = Auction.objects.get(id=auction_id)
+    except:
+        return HttpResponse('Invalid auction ID')
+
     return render(request, "show_auction.html", {'auction': auction, 'user': request.user})
 
 
