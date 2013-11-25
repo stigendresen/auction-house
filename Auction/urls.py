@@ -11,7 +11,6 @@ urlpatterns = patterns('',
 
                        (r'^auctionhouse/$', home),
                        (r'^registeruser/$', reg_user),
-                       (r'^login/$', log_in),
                        (r'^logout/$', log_out),
                        (r'^userprofile', get_user),
                        (r'^auction/$', create_auction),

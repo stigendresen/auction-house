@@ -8,22 +8,37 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from datetime import datetime, timedelta, tzinfo
+from datetime import datetime, timedelta
 from django.utils.timezone import utc
 import re
 
 
 def home(request):
+
+    if request.method == "POST":
+
+        if request.POST.get('login', ''):
+            log_in(request)
+
+        elif request.POST.get('', 'reguser'):
+            return render(request, "register_user.html")
+
     if request.user.is_superuser:
         auctions = Auction.objects.order_by('starttime')
     else:
         auctions = Auction.objects.filter(is_active=True)
 
+    if request.method == "GET":
+
+        if request.GET.get('searchbutton'):
+            searchvalue = request.GET['searchfield']
+
+            if not searchvalue == "":
+                auctions = Auction.objects.filter(title=searchvalue)
+
+
     if not 'loggedin' in request.session:
         request.session['loggedin'] = 0
-
-    if request.method == "POST":
-        return render(request, "register_user.html")
 
     return render(request, "index.html", {'auctions': auctions, 'loggedin': request.session['loggedin'],
                                           'user': request.user})
@@ -68,6 +83,10 @@ def reg_user(request):
 
 
 def log_in(request):
+
+    if not request.method == "POST":
+            return HttpResponse("Error logging in")
+
     username = request.POST["email"]
     password = request.POST["pword"]
     user = authenticate(username=username, password=password)
@@ -92,6 +111,7 @@ def log_out(request):
     return HttpResponseRedirect("/auctionhouse/")
 
 
+@login_required(login_url="/auctionhouse/")
 def get_user(request):
     tmp_user = request.user
     auctions = Auction.objects.filter(ownerid=tmp_user)
@@ -100,10 +120,7 @@ def get_user(request):
 
 @login_required(login_url="/auctionhouse/")
 def add_auction(request):
-    if request.method == "POST" and \
-            request.POST.has_key('content') and \
-            request.POST.has_key('id') and \
-            request.POST.has_key('version'):
+    if request.method == "POST":
 
         auction = Auction.objects.get(id=request.POST["id"])
 
