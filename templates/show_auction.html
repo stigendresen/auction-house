@@ -31,7 +31,7 @@
 		Latest bidder: {{ auction.latest_bid_by }}<br>
         <form action="/auction/{{ auction.id }}/" class="form-container" method="post">
             {% csrf_token %}
-           	<input class="form-field" type="number" name="bidfield">
+           	<input class="form-field" step="0.01" type="number" name="bidfield">
 	        <input class="submit-button" type="submit" name="bidbutton" value="Place Bid">
         </form>
         <hr>

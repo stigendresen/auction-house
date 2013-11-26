@@ -160,12 +160,29 @@ def add_auction(request):
     return HttpResponse("Testing")
 
 
-def show_auction(request, auction_id):
+@login_required(login_url="/show_auction/")
+def place_bid(request, auction):
 
-    #IMPLEMENT BID
+    #CHECK USERNAME
+    #
+
+    if request.method == "POST" and auction.is_active:
+        bid_amount = request.POST['bidfield']
+
+        if bid_amount > auction.min_price:
+            auction.min_price = bid_amount
+
+            #USERID 2?
+            auction.latest_bid_by = request.user
+            auction.save()
+
+
+def show_auction(request, auction_id):
 
     try:
         auction = Auction.objects.get(id=auction_id)
+        place_bid(request, auction)
+
     except:
         return HttpResponse('Invalid auction ID')
 
