@@ -6,34 +6,32 @@
 
 {% include "body.html" %}
 
-<h1>New User</h1>
+<form class="form-container" action="/registeruser/" method="post">
+	<div class="form-title"><h2>Register user</h2></div>
+	<div class="form-title">Username/Email:</div>
+	<input class="form-field" type="text" name="uname" value="">
 
-<form action="/registeruser/" method="post">
+	<div class="form-title">First name:</div>
+	<input class="form-field" type="text" name="fname" value="">
 
-	<label>Username: </label><br>
-	<input type="text" name="uname" value=""><br>
+	<div class="form-title">Lastname/Surname:</div>
+	<input class="form-field" type="text" name="sname" value="">
 
-	<label>First name: </label><br>
-	<input type="text" name="fname" value=""><br>
+	<div class="form-title">Enter a unique password:</div>
+	<input class="form-field" type="password" name="pword" value="">
 
-	<label>Surnamename: </label><br>
-	<input type="text" name="sname" value=""><br>
+	<div class="form-title">Enter unique password again:</div>
+	<input class="form-field" type="password" name="vpword" value="">
 
-	<label>Password: </label><br>
-	<input type="password" name="pword" value=""><br>
-
-	<label>Retype Password: </label><br>
-	<input type="password" name="vpword" value=""><br>
-
-	<label>Email: </label><br>
-	<input type="email" name="email" value=""><br><br>
+	<div class="form-title">Primary email address:</div>
+	<input class="form-field" type="email" name="email" value="">
 
 	{% csrf_token %}
 
-	<label>Address: </label><br>
-	<textarea name="address" cols="40" rows="3"></textarea><br>
+	<div class="form-title">Shipping address:</div>
+	<textarea class="form-field" name="address" cols="40" rows="3"></textarea>
 
-	<input type="submit" value="Save">
+	<input class="submit-button" type="submit" value="Save">
 
 </form>
 
