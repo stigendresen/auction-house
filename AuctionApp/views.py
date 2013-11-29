@@ -223,9 +223,12 @@ def create_auction(request):
 def edit_auction(request, auction_id):
 
     auction = Auction.objects.get(id=auction_id)
-    tmp_endtime = datetime.now() + timedelta(hours=72)
+        
+    if auction.ownerid == request.user:
+        auction = Auction.objects.get(id=auction_id)
+        tmp_endtime = datetime.now() + timedelta(hours=72)
 
-    return render_to_response("edit_auction.html",
+        return render_to_response("edit_auction.html",
                               {'auction': auction, 'possible_endtime': tmp_endtime
                               }, context_instance=RequestContext(request))
 
