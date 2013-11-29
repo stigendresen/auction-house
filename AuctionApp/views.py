@@ -188,7 +188,7 @@ def show_auction(request, auction_id):
 
         if request.method == "POST" and auction.is_active:
             place_bid(request, auction)
-            
+
     except:
         messages.error(request, 'Unable to bid')
 
