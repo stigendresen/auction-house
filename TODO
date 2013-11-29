@@ -9,4 +9,10 @@
 *** 2013111905 Verify registration email address.
 +++ 2013111906 Add MH for sending email.
 +++ 2013111907 Create mail templates for register, bid changes, bid result, and reset password.
-+++ 2013111908 Implement bid rules according to minimal requirements in DEWAS-1314 descriptions.
+*** 2013111908 Implement bid rules according to minimal requirements in DEWAS-1314 descriptions.
+
++++ 2013112901 Add Concurrency on bids.
++++ 2013112902 Fix multiple languages.
++++ 2013112903 Implement RESTfull API.
++++ 2013112904 Install and configure CRONJOBS.
++++ 2013112905 Start testing the program.
