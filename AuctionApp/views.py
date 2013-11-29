@@ -114,6 +114,7 @@ def log_out(request):
 @login_required(login_url="/auctionhouse/")
 def get_user(request):
     tmp_user = request.user
+    request.session.set_expiry(1800)
     auctions = Auction.objects.filter(ownerid=tmp_user)
     return render(request, "user_profile.html", {'user': tmp_user, 'auctions': auctions})
 
@@ -134,6 +135,7 @@ def add_auction(request):
             auction.content = request.POST["content"]
 
         elif not auction.is_active:
+            auction.latest_bid_by = request.user
             auction.title = request.POST["title"]
             auction.min_price = request.POST["min_price"]
             endtime = request.POST["endtime"]
@@ -157,46 +159,51 @@ def add_auction(request):
         messages.success(request, 'Auction Published')
         return HttpResponseRedirect("/userprofile/")
 
-    return HttpResponse("Testing")
-
 
 @login_required(login_url="/show_auction/")
 def place_bid(request, auction):
 
-    #CHECK USERNAME
-    #
+    if auction.latest_bid_by == auction.ownerid or auction.latest_bid_by == request.user:
+        return
 
-    if request.method == "POST" and auction.is_active:
-        bid_amount = request.POST['bidfield']
+    bid_amount = request.POST['bidfield']
 
-        if bid_amount > auction.min_price:
-            auction.min_price = bid_amount
+    try:
+        new_bid = float(bid_amount)
 
-            #USERID 2?
+        if new_bid > auction.min_price:
+
+            auction.min_price = new_bid
             auction.latest_bid_by = request.user
             auction.save()
+
+    except:
+        messages.error(request, 'Enter a valid number')
 
 
 def show_auction(request, auction_id):
 
     try:
         auction = Auction.objects.get(id=auction_id)
-        place_bid(request, auction)
 
+        if request.method == "POST" and auction.is_active:
+            place_bid(request, auction)
+            
     except:
-        return HttpResponse('Invalid auction ID')
+        messages.error(request, 'Unable to bid')
 
     return render(request, "show_auction.html", {'auction': auction, 'user': request.user})
 
 
 @login_required(login_url="/auctionhouse/")
 def create_auction(request):
-    auction = Auction.objects.create(ownerid=request.user)
+    auction = Auction.objects.create(ownerid=request.user, latest_bid_by=request.user)
     tmp_str = '/auction/' + str(auction.id)
 
     return HttpResponseRedirect(tmp_str)
 
 
+@login_required(login_url="/auctionhouse/")
 def edit_auction(request, auction_id):
     auction = Auction.objects.get(id=auction_id)
     tmp_endtime = datetime.now() + timedelta(hours=72)

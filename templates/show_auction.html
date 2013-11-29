@@ -9,8 +9,9 @@
 
 <article>
 	<div id="content">
+
         {% if messages %}
-	    <ul class="messages">
+	        <ul class="messages">
 		        {% for message in messages %}
 		        	<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
 		        {% endfor %}
@@ -28,7 +29,11 @@
 
 		<hr>
 		Price: {{ auction.min_price }}<br>
-		Latest bidder: {{ auction.latest_bid_by }}<br>
+		Latest bidder:
+        {% if auction.latest_bid_by != auction.ownerid %}
+            {{ auction.latest_bid_by }}
+        {% endif %}
+        <br>
         <form action="/auction/{{ auction.id }}/" class="form-container" method="post">
             {% csrf_token %}
            	<input class="form-field" step="0.01" type="number" name="bidfield">
