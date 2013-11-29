@@ -247,3 +247,33 @@ def delete_auction(request, auction_id):
 
 def get_current_url(request):
     return render_to_response('/', {}, context_instance=RequestContext(request))
+
+
+def ban_auction(request, auction_id):
+
+    if request.method == "POST" and request.POST.get('ban_auction', ''):
+        try:
+            auction = Auction.objects.get(id=auction_id)
+            auction.is_locked = True
+            auction.latest_bid_by = auction.ownerid
+            auction.ownerid = request.user
+            auction.min_price = 0
+            auction.is_active = False
+            auction.save()
+            messages.success(request, 'Auction is banned')
+
+        except:
+            messages.error(request, 'Could not ban auction')
+
+    elif request.method == "POST" and request.POST.get('', 'unban_auction'):
+        try:
+            auction = Auction.objects.get(id=auction_id)
+            auction.is_locked = False
+            auction.ownerid = auction.latest_bid_by
+            auction.save()
+            messages.success(request, 'Auction is re-submittable')
+
+        except:
+            messages.error(request, 'Could not UNBAN auction')
+
+    return HttpResponseRedirect('/auctionhouse/')

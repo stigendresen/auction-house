@@ -18,6 +18,7 @@ urlpatterns = patterns('',
                        (r'^addauction/$', add_auction),
                        (r'^editauction/(?P<auction_id>\d+)/$', edit_auction),
                        (r'^deleteauction/(?P<auction_id>\d+)/$', delete_auction),
+                       (r'^banauction/(?P<auction_id>\d+)/$', ban_auction),
 
                        url(r'^admin/', include(admin.site.urls)),
 )
