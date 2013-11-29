@@ -34,11 +34,9 @@
 				<input type="text" name="endtime" value="{{ possible_endtime|date:'H:i d-m-Y' }}"/><br>
 
 			{% endif %}
-
-			<input class="submit-button" type="submit" value="Publish">
 			<input type="hidden" name="id" value="{{ auction.id }}"/>
-			<input type="hidden" name="version" value="{{ version }}"/>
-
+			<input type="hidden" name="version" value="{{ auction.version }}"/>
+            <input class="submit-button" type="submit" value="Publish">
 
 		</form>
 	</div>

@@ -121,8 +121,10 @@ def get_user(request):
 
 @login_required(login_url="/auctionhouse/")
 def add_auction(request):
+
     if request.method == "POST":
 
+        edited_version = int(request.POST["version"])
         auction = Auction.objects.get(id=request.POST["id"])
 
         if auction.is_locked:
@@ -131,10 +133,7 @@ def add_auction(request):
         if len(request.POST["title"]) < 5:
             return HttpResponse("Title is too short")
 
-        if auction.is_active:
-            auction.content = request.POST["content"]
-
-        elif not auction.is_active:
+        if not auction.is_active:
             auction.latest_bid_by = request.user
             auction.title = request.POST["title"]
             auction.min_price = request.POST["min_price"]
@@ -149,12 +148,29 @@ def add_auction(request):
             tmp_time = tmp_time.replace(tzinfo=utc)
             auction.endtime = tmp_time
 
-        try:
-            auction.is_active = True
-            auction.save()
+            try:
+                auction.is_active = True
+                auction.save()
 
-        except:
-            return HttpResponse("ERROR!: Could not publish auction, \nCheck values!")
+            except:
+                return HttpResponse("ERROR!: Could not publish auction, \nCheck values!")
+
+        elif auction.is_active and auction.version == edited_version:
+
+            auction.content = request.POST["content"]
+            auction.title = request.POST["title"]
+            auction.version = auction.version + 1
+
+            try:
+                auction.save()
+
+            except:
+                return HttpResponse("ERROR!: Could not publish auction, \nCheck values!")
+
+        else:
+            # the description has changed. Let the user resolve the conflict
+            return render_to_response("edit_auction_error.html",
+                                      {'auction': auction}, context_instance=RequestContext(request))
 
         messages.success(request, 'Auction Published')
         return HttpResponseRedirect("/userprofile/")
@@ -205,6 +221,7 @@ def create_auction(request):
 
 @login_required(login_url="/auctionhouse/")
 def edit_auction(request, auction_id):
+
     auction = Auction.objects.get(id=auction_id)
     tmp_endtime = datetime.now() + timedelta(hours=72)
 

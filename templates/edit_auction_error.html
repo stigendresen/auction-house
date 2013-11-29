@@ -9,5 +9,29 @@
 	<div id="edit_auction_error">
 		<p>Error creating auction</p>
 	</div>
+
+    <h1>{{ title }}</h1>
+   The auction has been modified while you were editing it.
+
+   <h2>Current version</h2>
+   <p>{{ content }}</p>
+
+   <h2>Your version</h2>
+   <p>{{ user_content }}</p>
+
+   <h2>New version</h2>
+   Please combine the current version and your version into a new description
+
+    <form action="/addauction/" method="post">
+        <label>Title: </label><br>
+        <input type="text" name="title" value="{{ auction.title }}">
+        <br><br>
+        <label>Edit Content: </label><br>
+        {% csrf_token %}
+        <textarea name="content" cols="60" rows="20">{{ auction.content }}</textarea>
+        <br>
+        <input type="hidden" name="edited_version" value="{{ auction.version }}" />
+        <input type="submit" value="Save">
+    </form>
 </article>
-{% include "body.html" %}
+{% include "footer.html" %}
