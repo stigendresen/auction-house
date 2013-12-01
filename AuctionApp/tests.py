@@ -1,9 +1,9 @@
-from django.test import TestCase
-from django.db import models
 from datetime import datetime
 
-class CreateAuctionTest(TestCase):
+from django.test import TestCase
 
+
+class CreateAuctionTest(TestCase):
     def setUp(self):
         User.objects.create_user('Test', 'test@test.com', '1234abcd')
         self.client.login(username='Test', password='1234abcd')

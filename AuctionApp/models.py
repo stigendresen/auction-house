@@ -1,5 +1,6 @@
-from django.db import models
 from datetime import datetime
+
+from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
@@ -19,7 +20,6 @@ class Auction(models.Model):
 
 
 class Languages(models.Model):
-
     user = models.ForeignKey(User, primary_key=True)
     language = models.CharField(max_length=15, default='en')
 
