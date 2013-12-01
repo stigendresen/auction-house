@@ -21,6 +21,7 @@ urlpatterns = patterns('',
                        (r'^editauction/(?P<auction_id>\d+)/$', edit_auction),
                        (r'^deleteauction/(?P<auction_id>\d+)/$', delete_auction),
                        (r'^banauction/(?P<auction_id>\d+)/$', ban_auction),
+                       (r'^language/$', set_language),
 
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
