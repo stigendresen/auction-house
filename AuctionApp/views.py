@@ -36,7 +36,6 @@ def home(request):
             if not searchvalue == "":
                 auctions = Auction.objects.filter(title=searchvalue)
 
-
     if not 'loggedin' in request.session:
         request.session['loggedin'] = 0
 
@@ -206,7 +205,8 @@ def show_auction(request, auction_id):
             place_bid(request, auction)
 
     except:
-        messages.error(request, 'Unable to bid')
+        messages.error(request, 'An error has occured.')
+        return HttpResponse('Could not display auction')
 
     return render(request, "show_auction.html", {'auction': auction, 'user': request.user})
 
@@ -235,7 +235,7 @@ def edit_auction(request, auction_id):
 
 @login_required(login_url="/auctionhouse/")
 def delete_auction(request, auction_id):
-    if request.method == "POST":
+    if request.method == "POST" and request.user.is_superuser:
 
         try:
             auction = Auction.objects.get(id=auction_id)
