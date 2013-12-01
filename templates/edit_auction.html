@@ -31,7 +31,8 @@
 				<label>End-time: (Needs to be at least 72 hours from publish)<br>
 					Format: 23:59 31-12-2013</label><br>
 
-				<input class="form-field" type="text" name="endtime" value="{{ possible_endtime|date:'H:i d-m-Y' }}"/><br>
+				<input class="form-field" type="text" name="endtime" value="{{ possible_endtime|date:'H:i d-m-Y' }}"/>
+				<br>
 
 			{% endif %}
 			<input type="hidden" name="id" value="{{ auction.id }}"/>
