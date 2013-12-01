@@ -10,15 +10,15 @@
 <article>
 	<div id="content">
 
-        {% if messages %}
-	        <ul class="messages">
-		        {% for message in messages %}
-		        	<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-		        {% endfor %}
-	        </ul>
-        {% endif %}
+		{% if messages %}
+			<ul class="messages">
+				{% for message in messages %}
+					<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
 
-        <h1>Edit current auction<br></h1>
+		<h1>Edit current auction<br></h1>
 
 		Owner: {{ auction.ownerid.username }}<br>
 		Title: {{ auction.title }}<br>
@@ -30,16 +30,17 @@
 		<hr>
 		Price: {{ auction.min_price }}<br>
 		Latest bidder:
-        {% if auction.latest_bid_by != auction.ownerid %}
-            {{ auction.latest_bid_by }}
-        {% endif %}
-        <br>
-        <form action="/auction/{{ auction.id }}/" class="form-container" method="post">
-            {% csrf_token %}
-           	<input class="form-field" step="0.01" type="number" name="bidfield">
-	        <input class="submit-button" type="submit" name="bidbutton" value="Place Bid">
-        </form>
-        <hr>
+		{% if auction.latest_bid_by != auction.ownerid %}
+			{{ auction.latest_bid_by }}
+		{% endif %}
+		<br>
+
+		<form action="/auction/{{ auction.id }}/" class="form-container" method="post">
+			{% csrf_token %}
+			<input class="form-field" step="0.01" type="number" name="bidfield">
+			<input class="submit-button" type="submit" name="bidbutton" value="Place Bid">
+		</form>
+		<hr>
 		Active: {{ auction.is_active }}<br><br>
 	</div>
 
