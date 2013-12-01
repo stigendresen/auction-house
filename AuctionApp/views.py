@@ -176,8 +176,9 @@ def add_auction(request):
 
 @login_required(login_url="/show_auction/")
 def place_bid(request, auction):
-    if auction.latest_bid_by == auction.ownerid or auction.latest_bid_by == request.user:
-        return
+
+    if request.user == auction.ownerid or auction.latest_bid_by == request.user:
+        return None
 
     bid_amount = request.POST['bidfield']
 
@@ -194,6 +195,7 @@ def place_bid(request, auction):
 
 
 def show_auction(request, auction_id):
+
     try:
         auction = Auction.objects.get(id=auction_id)
 
