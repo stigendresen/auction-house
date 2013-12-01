@@ -18,15 +18,7 @@ class Auction(models.Model):
     is_locked = models.BooleanField(default=False)
     latest_bid_by = models.ForeignKey(User, related_name="bids")
 
-'''
-class Bid(models.Model):
 
-    auction = models.ForeignKey(Auction)
-    bidder = models.ForeignKey(User)
-    amount = models.FloatField(default=0.00)
-    timestamp = models.DateTimeField()
-'''
-'''
 class Language(models.Model):
 
     user = models.ForeignKey(User, primary_key=True)
@@ -39,4 +31,14 @@ class Language(models.Model):
 
         except:
             return None
+
+
 '''
+class Bid(models.Model):
+
+    auction = models.ForeignKey(Auction)
+    bidder = models.ForeignKey(User)
+    amount = models.FloatField(default=0.00)
+    timestamp = models.DateTimeField()
+'''
+

@@ -32,7 +32,7 @@ msgid "Price"
 msgstr ""
 
 msgid "Login"
-msgstr ""
+msgstr "Logga in"
 
 msgid "Logout"
 msgstr ""

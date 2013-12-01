@@ -245,29 +245,33 @@ def delete_auction(request, auction_id):
         return HttpResponseRedirect("/auctionhouse/")
 
 
-def language(request):
+def set_language(request):
 
-    if request.user.is_authenticated():
-
-        lang = Language.get_language_by_user(request.user)
-
-        if request.method == 'POST' and 'language' in request.POST:
-            lang = Language(user=user, language=request.POST['language'])
-            lang.save()
-            request.session['django_language'] = lang.language
-            return HttpResponseRedirect('/auctioneer/home/')
+    if request.method == "POST":
+        if 'no' == request.POST.get("NO"):
+            print 'no'
+            lang = 'no'
+        elif 'fi' == request.POST.get('FI'):
+            lang = 'fi'
+        elif 'sv' == request.POST.get('SV'):
+            lang = 'sv'
+        elif 'dk' == request.POST.get('DK'):
+            lang = 'dk'
         else:
-            return render_to_response('language.html', {'title': _('Language'), 'is_logged_in': is_logged_in,
-                                                        'language': lang.language},
-                                      context_instance=RequestContext(request))
-    else:
-        if request.method == 'POST' and 'language' in request.POST:
-            request.session['django_language'] = request.POST['language']
-            return HttpResponseRedirect('/auctioneer/home/')
+            lang = 'en'
+
+        if request.user.is_authenticated():
+
+            language = Language(user=request.user, language=lang)
+            language.save()
+            request.session['django_language'] = language.language
+
+            return HttpResponseRedirect('/auctionhouse/')
+
         else:
-            return render_to_response('language.html', {'title': _('Language'), 'is_logged_in': is_logged_in,
-                                                        'language': 'en'},
-                                      context_instance=RequestContext(request))
+
+            request.session['django_language'] = lang
+            return HttpResponseRedirect('/auctionhouse/')
 
 
 def get_current_url(request):

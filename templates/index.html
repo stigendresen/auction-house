@@ -7,7 +7,14 @@
 {% endcomment %}
 
 {% include "body.html" %}
-
+<form action="/language/" name="language" method="POST">
+    {% csrf_token %}
+    <input class="submit-button" type="submit" name="FI" value="fi">
+    <input class="submit-button" type="submit" name="EN" value="en">
+    <input class="submit-button" type="submit" name="SV" value="sv">
+    <input class="submit-button" type="submit" name="NO" value="no">
+    <input class="submit-button" type="submit" name="DK" value="dk">
+</form>
 {% if loggedin == True %}
 	<h3>Log Out:</h3>
 
@@ -66,7 +73,7 @@
 	Price: {{ i.min_price }}<br><br>
 
 	{% if user.is_superuser %}
-		Auction is active {{ i.is_active }}<br>
+		Auction is active: {{ i.is_active }}<br>
 		<form action="/deleteauction/{{ i.id }}/" method="post">
 			{% csrf_token %}
 			<input class="submit-button" type="submit" name="delauction" value="{% trans "Delete Auction" %}">

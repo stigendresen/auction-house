@@ -1,11 +1,13 @@
-from unittest import TestCase
+import unittest
+
 from django.contrib.auth.models import User
 #from django.core import mail
 #from django.test import Client
 #from AuctionApp.models import *
-from datetime import datetime
+#from datetime import datetime
 
-class CreateAuctionTest(TestCase):
+
+class CreateAuctionTest(unittest.TestCase):
 
     def setUp(self):
         User.objects.create_user('Test', 'test@test.com', '1234abcd')
