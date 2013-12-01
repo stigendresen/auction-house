@@ -1,20 +1,21 @@
+from datetime import datetime, timedelta
+import re
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, render
 from django.contrib import messages
-from AuctionApp.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from datetime import datetime, timedelta
 from django.utils.timezone import utc
-import re
+
+from AuctionApp.models import *
 
 
 def home(request):
-
     if request.method == "POST":
 
         if request.POST.get('login', ''):
@@ -82,9 +83,8 @@ def reg_user(request):
 
 
 def log_in(request):
-
     if not request.method == "POST":
-            return HttpResponse("Error logging in")
+        return HttpResponse("Error logging in")
 
     username = request.POST["email"]
     password = request.POST["pword"]
@@ -120,7 +120,6 @@ def get_user(request):
 
 @login_required(login_url="/auctionhouse/")
 def add_auction(request):
-
     if request.method == "POST":
 
         edited_version = int(request.POST["version"])
@@ -177,7 +176,6 @@ def add_auction(request):
 
 @login_required(login_url="/show_auction/")
 def place_bid(request, auction):
-
     if auction.latest_bid_by == auction.ownerid or auction.latest_bid_by == request.user:
         return
 
@@ -187,7 +185,6 @@ def place_bid(request, auction):
         new_bid = float(bid_amount)
 
         if new_bid > auction.min_price:
-
             auction.min_price = new_bid
             auction.latest_bid_by = request.user
             auction.save()
@@ -197,7 +194,6 @@ def place_bid(request, auction):
 
 
 def show_auction(request, auction_id):
-
     try:
         auction = Auction.objects.get(id=auction_id)
 
@@ -221,16 +217,15 @@ def create_auction(request):
 
 @login_required(login_url="/auctionhouse/")
 def edit_auction(request, auction_id):
-
     auction = Auction.objects.get(id=auction_id)
-        
+
     if auction.ownerid == request.user:
         auction = Auction.objects.get(id=auction_id)
         tmp_endtime = datetime.now() + timedelta(hours=72)
 
         return render_to_response("edit_auction.html",
-                              {'auction': auction, 'possible_endtime': tmp_endtime
-                              }, context_instance=RequestContext(request))
+                                  {'auction': auction, 'possible_endtime': tmp_endtime
+                                  }, context_instance=RequestContext(request))
 
 
 @login_required(login_url="/auctionhouse/")
@@ -253,7 +248,6 @@ def get_current_url(request):
 
 
 def ban_auction(request, auction_id):
-
     if request.method == "POST" and request.POST.get('ban_auction', ''):
         try:
             auction = Auction.objects.get(id=auction_id)

@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, include, url
-from AuctionApp.views import *
 from django.contrib import admin
+
+from AuctionApp.views import *
+
 
 admin.autodiscover()
 

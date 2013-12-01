@@ -1,3 +1,4 @@
+{% load i18n %}
 {% include "head.html" %}
 
 {% comment %}
@@ -12,33 +13,33 @@
 
 	<form action="/logout/" method="post">
 		{% csrf_token %}
-		<input class="submit-button" type="submit" value="Log out">
+		<input class="submit-button" type="submit" value="{% trans "Logout" %}">
 	</form>
 
 	<form action="/auction/" method="post">
 		{% csrf_token %}
-		<input class="submit-button" type="submit" value="Create Auction">
+		<input class="submit-button" type="submit" value="{% trans "Create Auction" %}">
 	</form>
 
 	<form action="/userprofile/" method="post">
 		{% csrf_token %}
-		<input class="submit-button" type="submit" value="User Settings">
+		<input class="submit-button" type="submit" value="{% trans "User Settings" %}">
 	</form>
 {% endif %}
 
 {% if loggedin == False %}
 	<form class="form-container" action="/auctionhouse/" method="post">
-		<div class="form-title"><h2>Welcome</h2></div>
-		<div class="form-title">Username/email:</div>
+		<div class="form-title"><h2>{% trans "Welcome" %}</h2></div>
+		<div class="form-title">{% trans "Username" %}/{% trans "Email" %}:</div>
 		<input class="form-field" type="text" name="email" value=""><br>
 
-		<div class="form-title">Password:</div>
+		<div class="form-title">{% trans "Password" %}:</div>
 		<input class="form-field" type="password" name="pword" value=""><br>
 
 		{% csrf_token %}
 		<div class="submit-container">
-			<input class="submit-button" type="submit" name="login" value="Log in">
-			<input class="submit-button" type="submit" name="reguser" value="Register">
+			<input class="submit-button" type="submit" name="login" value="{% trans "Login" %}">
+			<input class="submit-button" type="submit" name="reguser" value="{% trans "Register" %}">
 		</div>
 	</form>
 
@@ -54,10 +55,10 @@
 
 <form action="/auctionhouse/" method="get">
 	<input class="form-field" type="search" name="searchfield">
-	<input class="submit-button" type="submit" name="searchbutton" value="Search">
+	<input class="submit-button" type="submit" name="searchbutton" value="{% trans "Search" %}">
 </form>
 
-<h3>Active Auctions:</h3>
+<h3>{% trans "Active Auctions" %}:</h3>
 
 {% for i in auctions %}
 
@@ -65,25 +66,25 @@
 	Price: {{ i.min_price }}<br><br>
 
 	{% if user.is_superuser %}
-        Auction is active {{ i.is_active }}<br>
+		Auction is active {{ i.is_active }}<br>
 		<form action="/deleteauction/{{ i.id }}/" method="post">
 			{% csrf_token %}
-			<input class="submit-button" type="submit" name="delauction" value="Delete Auction">
+			<input class="submit-button" type="submit" name="delauction" value="{% trans "Delete Auction" %}">
 		</form>
 
-        {% if i.is_locked == False %}
-            <form action="/banauction/{{ i.id }}/" method="post">
-                {% csrf_token %}
-                <input class="submit-button" type="submit" name="ban_auction" value="Ban Auction">
-            </form>
+		{% if i.is_locked == False %}
+			<form action="/banauction/{{ i.id }}/" method="post">
+				{% csrf_token %}
+				<input class="submit-button" type="submit" name="ban_auction" value="{% trans "Ban Auction" %}">
+			</form>
 
-        {% elif i.is_locked == True and i.is_active == False %}
-            Auction Locked: {{ i.is_locked }}
-            <form action="/banauction/{{ i.id }}/" method="post">
-                {% csrf_token %}
-                <input class="submit-button" type="submit" name="unban_auction" value="Unban Auction">
-            </form>
-        {% endif %}
+		{% elif i.is_locked == True and i.is_active == False %}
+			Auction Locked: {{ i.is_locked }}
+			<form action="/banauction/{{ i.id }}/" method="post">
+				{% csrf_token %}
+				<input class="submit-button" type="submit" name="unban_auction" value="{% trans "Unban Auction" %}">
+			</form>
+		{% endif %}
 
 	{% endif %}
 	<hr>
