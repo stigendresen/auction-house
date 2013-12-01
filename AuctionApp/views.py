@@ -176,8 +176,9 @@ def add_auction(request):
 
 @login_required(login_url="/show_auction/")
 def place_bid(request, auction):
-    if auction.latest_bid_by == auction.ownerid or auction.latest_bid_by == request.user:
-        return
+
+    if request.user == auction.ownerid or auction.latest_bid_by == request.user:
+        return None
 
     bid_amount = request.POST['bidfield']
 
@@ -194,6 +195,7 @@ def place_bid(request, auction):
 
 
 def show_auction(request, auction_id):
+
     try:
         auction = Auction.objects.get(id=auction_id)
 
@@ -201,7 +203,8 @@ def show_auction(request, auction_id):
             place_bid(request, auction)
 
     except:
-        messages.error(request, 'Unable to bid')
+        messages.error(request, 'An error has occured.')
+        return HttpResponse('Could not display auction')
 
     return render(request, "show_auction.html", {'auction': auction, 'user': request.user})
 
@@ -229,7 +232,7 @@ def edit_auction(request, auction_id):
 
 @login_required(login_url="/auctionhouse/")
 def delete_auction(request, auction_id):
-    if request.method == "POST":
+    if request.method == "POST" and request.user.is_superuser:
 
         try:
             auction = Auction.objects.get(id=auction_id)
