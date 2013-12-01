@@ -97,6 +97,7 @@ STATIC_URL = '/static/'
 ANALYTICS_ID = "UA-XXXXXXX-X"
 
 REST_FRAMEWORK = {
+
     # Use hyperlinked styles by default.
     # Only used if the `serializer_class` attribute is not set on a view.
     'DEFAULT_MODEL_SERIALIZER_CLASS':

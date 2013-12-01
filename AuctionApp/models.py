@@ -17,6 +17,16 @@ class Auction(models.Model):
     is_locked = models.BooleanField(default=False)
     latest_bid_by = models.ForeignKey(User, related_name="bids")
 
+
+class Languages(models.Model):
+
+    user = models.ForeignKey(User, primary_key=True)
+    language = models.CharField(max_length=15, default='en')
+
     @classmethod
-    def getById(cls, auction_id):
-        return cls.objects.get(id=auction_id)
+    def get_language_by_user(cls, user):
+        try:
+            return cls.objects.get(user=user)
+
+        except:
+            return None
