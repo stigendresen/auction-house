@@ -11,7 +11,6 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import utc
-
 from AuctionApp.models import *
 
 
