@@ -4,7 +4,6 @@
 
 msgid ""
 msgstr ""
- ## CHANGE THIS ##
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-17 14:43+0300\n"
@@ -58,8 +57,14 @@ msgstr "Avvis auksjon"
 msgid "Unban Auction"
 msgstr "Aksepter auksjon på ny"
 
+msgid "Edit Auction"
+msgstr "Rediger Auksjon"
+
 msgid "Auction"
 msgstr "Auksjon"
 
 msgid "Auctions"
 msgstr "Auksjoner"
+
+msgid "Publish"
+msgstr "Publiser"
