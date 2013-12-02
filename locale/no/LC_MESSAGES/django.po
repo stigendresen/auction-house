@@ -1,70 +1,94 @@
 # SOME DESCRIPTION like copyright, license ec.
 #
-#,
-
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-17 14:43+0300\n"
+"POT-Creation-Date: 2013-12-02 21:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-msgid "Welcome"
-msgstr "Velkommen"
+#: templates/edit_auction.html:41
+msgid "Publish"
+msgstr "Publiser"
 
-msgid "Username"
-msgstr "Brukernavn"
-
-msgid "Email"
-msgstr "Epost"
-
-msgid "Title"
-msgstr "Tittel"
-
-msgid "Price"
-msgstr "Pris"
-
-msgid "Login"
-msgstr "Logg inn"
-
+#: templates/index.html:23
 msgid "Logout"
 msgstr "Logg ut"
 
-msgid "User Settings"
-msgstr "Mine innstillinger"
-
-msgid "Register"
-msgstr "Registrer"
-
-msgid "Search"
-msgstr "Søk"
-
-msgid "Active auctions"
-msgstr "Pågående auksjoner"
-
+#: templates/index.html:28 templates/user_profile.html:22
 msgid "Create Auction"
 msgstr "Opprett ny auksjon"
 
+#: templates/index.html:33
+msgid "User Settings"
+msgstr "Mine innstillinger"
+
+#: templates/index.html:39
+msgid "Welcome"
+msgstr "Velkommen"
+
+#: templates/index.html:40
+msgid "Username"
+msgstr "Brukernavn"
+
+#: templates/index.html:40
+msgid "Email"
+msgstr "Epost"
+
+#: templates/index.html:43
+msgid "Password"
+msgstr ""
+
+#: templates/index.html:48
+msgid "Login"
+msgstr "Logg inn"
+
+#: templates/index.html:49
+msgid "Register"
+msgstr "Registrer"
+
+#: templates/index.html:65
+msgid "Search"
+msgstr "Søk"
+
+#: templates/index.html:68
+#, fuzzy
+msgid "Active Auctions"
+msgstr "Pågående auksjoner"
+
+#: templates/index.html:79 templates/user_profile.html:51
+#, fuzzy
+msgid "Delete Auction"
+msgstr "Opprett ny auksjon"
+
+#: templates/index.html:85
 msgid "Ban Auction"
 msgstr "Avvis auksjon"
 
+#: templates/index.html:92
 msgid "Unban Auction"
 msgstr "Aksepter auksjon på ny"
 
-msgid "Edit Auction"
-msgstr "Rediger Auksjon"
-
-msgid "Auction"
+#: templates/user_profile.html:40 templates/user_profile.html.py:45
+#, fuzzy
+msgid "Show Auction"
 msgstr "Auksjon"
 
-msgid "Auctions"
-msgstr "Auksjoner"
+#~ msgid "Title"
+#~ msgstr "Tittel"
 
-msgid "Publish"
-msgstr "Publiser"
+#~ msgid "Price"
+#~ msgstr "Pris"
+
+#~ msgid "Edit Auction"
+#~ msgstr "Rediger Auksjon"
+
+#~ msgid "Auctions"
+#~ msgstr "Auksjoner"

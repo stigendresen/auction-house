@@ -189,6 +189,9 @@ def place_bid(request, auction):
             auction.latest_bid_by = request.user
             auction.save()
 
+        else:
+            return HttpResponse("Couldn't bid. Amount is too low")
+
     except:
         messages.error(request, 'Enter a valid number')
 
@@ -258,7 +261,6 @@ def set_language(request):
 
     if request.method == "POST":
         if 'no' == request.POST.get("NO"):
-            print 'no'
             lang = 'no'
         elif 'fi' == request.POST.get('FI'):
             lang = 'fi'
