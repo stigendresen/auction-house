@@ -126,15 +126,14 @@ def add_auction(request):
         auction = Auction.objects.get(id=request.POST["id"])
 
         if auction.is_locked:
-            return render_to_response("AUCTION IS BANNED")
+            return HttpResponse("Auction is banned")
 
         if len(request.POST["title"]) < 5:
             return HttpResponse("Title is too short")
 
         if not auction.is_active:
-            auction.latest_bid_by = request.user
             auction.title = request.POST["title"]
-            auction.min_price = request.POST["min_price"]
+            auction.min_price = float(request.POST["min_price"])
             endtime = request.POST["endtime"]
             auction.content = request.POST["content"]
 
@@ -212,9 +211,19 @@ def show_auction(request, auction_id):
 @login_required(login_url="/auctionhouse/")
 def create_auction(request):
     auction = Auction.objects.create(ownerid=request.user, latest_bid_by=request.user)
-    tmp_str = '/auction/' + str(auction.id)
+    tmp_endtime = calculate_endtime()
 
-    return HttpResponseRedirect(tmp_str)
+    #tmp_str = '/auction/' + str(auction.id)
+    #return HttpResponseRedirect(tmp_str)
+
+    return render_to_response("edit_auction.html",
+                            {'auction': auction, 'possible_endtime': tmp_endtime,
+                            }, context_instance=RequestContext(request))
+
+
+def calculate_endtime():
+
+    return datetime.now() + timedelta(hours=72)
 
 
 @login_required(login_url="/auctionhouse/")
@@ -223,7 +232,7 @@ def edit_auction(request, auction_id):
 
     if auction.ownerid == request.user:
         auction = Auction.objects.get(id=auction_id)
-        tmp_endtime = datetime.now() + timedelta(hours=72)
+        tmp_endtime = calculate_endtime()
 
         return render_to_response("edit_auction.html",
                                   {'auction': auction, 'possible_endtime': tmp_endtime
