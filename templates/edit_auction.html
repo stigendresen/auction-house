@@ -1,3 +1,4 @@
+{% load i18n %}
 {% include "head.html" %}
 
 {% comment %}
@@ -37,7 +38,7 @@
 			{% endif %}
 			<input type="hidden" name="id" value="{{ auction.id }}"/>
 			<input type="hidden" name="version" value="{{ auction.version }}"/>
-			<input class="submit-button" type="submit" value="Publish">
+			<input class="submit-button" type="submit" value="{% trans "Publish" %}">
 
 		</form>
 	</div>

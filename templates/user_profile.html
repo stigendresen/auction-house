@@ -1,3 +1,4 @@
+{% load i18n %}
 {% include "head.html" %}
 {% comment %}   The head.html should be inherited parent when template design have been completed.
 				It`s work in progress.
@@ -14,14 +15,12 @@
 	</div>
 
 	<br>
-	<hr>
 
 	<div>
 		<form action="/auction/" method="post">
 			{% csrf_token %}
-			<input type="submit" value="Create Auction">
+			<input class="submit-button" type="submit" value="{% trans "Create Auction" %}">
 		</form>
-		<hr>
 
 		{% if messages %}
 			<ul class="messages">
@@ -38,21 +37,20 @@
 
 			<form action="/auction/{{ i.id }}/" method="post">
 				{% csrf_token %}
-				<input type="submit" name="showauction" value="Show Auction">
+				<input class="submit-button" type="submit" name="showauction" value="{% trans "Show Auction" %}">
 			</form>
 
 			<form action="/editauction/{{ i.id }}/" method="post">
 				{% csrf_token %}
-				<input type="submit" name="editauction" value="Edit Auction">
+				<input class="submit-button" type="submit" name="editauction" value="{% trans "Show Auction" %}">
 			</form>
 
 			{% if user.is_superuser %}
 				<form action="/deleteauction/{{ i.id }}/" method="post">
 					{% csrf_token %}
-					<input type="submit" name="delauction" value="Delete Auction">
+					<input class="submit-button" type="submit" name="delauction" value="{% trans "Delete Auction" %}">
 				</form>
 			{% endif %}
-			<hr>
 
 		{% endfor %}
 	</div>
