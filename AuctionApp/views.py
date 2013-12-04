@@ -315,3 +315,35 @@ def ban_auction(request, auction_id):
             messages.error(request, 'Could not UNBAN auction')
 
     return HttpResponseRedirect('/auctionhouse/')
+
+
+def edit_user(request):
+
+    user = request.user
+    if request.method == "GET" and request.user.is_authenticated():
+        return render(request, "edit_user.html", {'user':user})
+
+    elif request.method == "POST" and request.user.is_authenticated():
+        username = user.username
+        user = authenticate(username=username, password=request.POST['pword'])
+
+        if request.POST['pword'] == request.POST['vpword'] and user is not None and request.POST['pword'] > 5:
+
+            email = request.POST['email']
+            if re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email):
+
+                request.user.set_password(request.POST['pword'])
+                request.user.email = email
+                request.user.save()
+
+                messages.success(request, 'Userinformation changed')
+                return HttpResponseRedirect('/userprofile/')
+
+            else:
+                return HttpResponse("Something went wrong, check Email")
+
+        else:
+            return HttpResponse("Check the password")
+
+    else:
+        return HttpResponseRedirect('/auctionhouse/')

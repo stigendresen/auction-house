@@ -1,0 +1,33 @@
+{% load i18n %}
+{% include "head.html" %}
+{% comment %}   The head.html should be inherited parent when template design have been completed.
+				It`s work in progress.
+{% endcomment %}
+
+{% include "body.html" %}
+
+<article>
+<form class="form-container" action="/edituser/" method="post">
+
+	<div class="form-title">Username: {{ user.username }}</div>
+
+	<div class="form-title">Enter a <strong>OLD</strong> password:</div>
+	<input class="form-field" type="password" name="old_pword" value="">
+
+	<div class="form-title">Enter a <strong>unique</strong> password:</div>
+	<input class="form-field" type="password" name="pword" value="">
+
+	<div class="form-title">Enter <strong>unique</strong> password again:</div>
+	<input class="form-field" type="password" name="vpword" value="">
+
+	<div class="form-title">Primary email address:</div>
+	<input class="form-field" type="email" name="email" value="{{ user.email }}">
+
+	{% csrf_token %}
+
+	<input class="submit-button" type="submit" value="Change Information">
+
+</form>
+</article>
+
+{% include "footer.html" %}
