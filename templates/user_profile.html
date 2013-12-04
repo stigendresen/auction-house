@@ -17,6 +17,9 @@
 	<br>
 
 	<div>
+        <form action="/edituser/" method="get">
+			{% csrf_token %}
+			<input class="submit-button" type="submit" value="{% trans "Edit User" %}">
 		<form action="/auction/" method="post">
 			{% csrf_token %}
 			<input class="submit-button" type="submit" value="{% trans "Create Auction" %}">
@@ -42,7 +45,7 @@
 
 			<form action="/editauction/{{ i.id }}/" method="post">
 				{% csrf_token %}
-				<input class="submit-button" type="submit" name="editauction" value="{% trans "Show Auction" %}">
+				<input class="submit-button" type="submit" name="editauction" value="{% trans "Edit Auction" %}">
 			</form>
 
 			{% if user.is_superuser %}
